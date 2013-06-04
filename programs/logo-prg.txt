@@ -1,0 +1,9 @@
+av 100
+td 90 
+av 100
+td 90
+tg 90
+tg 90
+lc
+bc
+ve
