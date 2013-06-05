@@ -11,7 +11,6 @@ import logogui.Log;
 
 public class TableDesSymboles {
 	private Stack<HashMap<String, Noeud>> context;
-	
 	private HashMap<String, Noeud> symboles;
 	private HashMap<String, Noeud> locales;
 	private static TableDesSymboles instance;

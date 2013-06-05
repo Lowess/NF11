@@ -50,6 +50,9 @@ public interface LogoListener extends ParseTreeListener {
 	void enterLoop(LogoParser.LoopContext ctx);
 	void exitLoop(LogoParser.LoopContext ctx);
 
+	void enterListe_params(LogoParser.Liste_paramsContext ctx);
+	void exitListe_params(LogoParser.Liste_paramsContext ctx);
+
 	void enterBool_op_bool(LogoParser.Bool_op_boolContext ctx);
 	void exitBool_op_bool(LogoParser.Bool_op_boolContext ctx);
 
@@ -58,9 +61,6 @@ public interface LogoListener extends ParseTreeListener {
 
 	void enterBc(LogoParser.BcContext ctx);
 	void exitBc(LogoParser.BcContext ctx);
-
-	void enterProcedure(LogoParser.ProcedureContext ctx);
-	void exitProcedure(LogoParser.ProcedureContext ctx);
 
 	void enterAffect_locale(LogoParser.Affect_localeContext ctx);
 	void exitAffect_locale(LogoParser.Affect_localeContext ctx);
@@ -112,6 +112,9 @@ public interface LogoListener extends ParseTreeListener {
 
 	void enterFpos(LogoParser.FposContext ctx);
 	void exitFpos(LogoParser.FposContext ctx);
+
+	void enterFonction(LogoParser.FonctionContext ctx);
+	void exitFonction(LogoParser.FonctionContext ctx);
 
 	void enterLc(LogoParser.LcContext ctx);
 	void exitLc(LogoParser.LcContext ctx);

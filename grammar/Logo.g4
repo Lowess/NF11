@@ -79,9 +79,11 @@ instruction:
   	| expr_conditionnelle # expr_cond
   	| expr_affectation # expr_affect
   	| LOCALE ID # affect_locale
-  	| POUR ID liste_instructions FIN # procedure
+  	| POUR ID liste_params liste_instructions FIN # fonction
   	;
-  		
+  	
+liste_params: ID* ;
+	
 expr_arithmetique :
 	expr_arithmetique MUL expr_arithmetique # mul
 	| expr_arithmetique DIV expr_arithmetique # div  
@@ -106,9 +108,7 @@ expr_booleene:
 	| ':' ID # id_bool
 	;
 	
-bloc:
-	'[' liste_instructions ']' 
-	;
+bloc: '[' liste_instructions ']' ;
 	
 expr_conditionnelle:
 	COND_IF expr_booleene bloc # si

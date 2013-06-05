@@ -35,13 +35,13 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitLoop(LogoParser.LoopContext ctx);
 
+	T visitListe_params(LogoParser.Liste_paramsContext ctx);
+
 	T visitBool_op_bool(LogoParser.Bool_op_boolContext ctx);
 
 	T visitBool_op_arithm(LogoParser.Bool_op_arithmContext ctx);
 
 	T visitBc(LogoParser.BcContext ctx);
-
-	T visitProcedure(LogoParser.ProcedureContext ctx);
 
 	T visitAffect_locale(LogoParser.Affect_localeContext ctx);
 
@@ -76,6 +76,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBool_vrai(LogoParser.Bool_vraiContext ctx);
 
 	T visitFpos(LogoParser.FposContext ctx);
+
+	T visitFonction(LogoParser.FonctionContext ctx);
 
 	T visitLc(LogoParser.LcContext ctx);
 

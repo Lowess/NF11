@@ -36,13 +36,13 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitLoop(LogoParser.LoopContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitListe_params(LogoParser.Liste_paramsContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitBool_op_bool(LogoParser.Bool_op_boolContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitBool_op_arithm(LogoParser.Bool_op_arithmContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitBc(LogoParser.BcContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitProcedure(LogoParser.ProcedureContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitAffect_locale(LogoParser.Affect_localeContext ctx) { return visitChildren(ctx); }
 
@@ -77,6 +77,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitBool_vrai(LogoParser.Bool_vraiContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitFpos(LogoParser.FposContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitFonction(LogoParser.FonctionContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitLc(LogoParser.LcContext ctx) { return visitChildren(ctx); }
 

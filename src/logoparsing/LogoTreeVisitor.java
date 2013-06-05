@@ -28,6 +28,7 @@ import logoparsing.LogoParser.DivContext;
 import logoparsing.LogoParser.Expr_affectContext;
 import logoparsing.LogoParser.Expr_condContext;
 import logoparsing.LogoParser.FccContext;
+import logoparsing.LogoParser.FonctionContext;
 import logoparsing.LogoParser.FposContext;
 import logoparsing.LogoParser.HasardContext;
 import logoparsing.LogoParser.IdContext;
@@ -251,6 +252,18 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 			System.out.println("Exception reçue: LOOP est utilisé en dehors de son contexte de boucle");
 			return 1;
 		}
+		return 0;
+	}
+	
+	public Integer visitFonction(FonctionContext ctx) {
+		//Création de l'objet fonction
+		
+		String id = ctx.ID().getText();
+		
+		//Met à jour la table des fonctions
+		
+		//Marque l'arbre
+		//setAttValue(ctx, );
 		return 0;
 	}
 	/* 
