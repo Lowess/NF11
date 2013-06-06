@@ -13,9 +13,9 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitHasard(LogoParser.HasardContext ctx);
 
-	T visitTg(LogoParser.TgContext ctx);
-
 	T visitDiv(LogoParser.DivContext ctx);
+
+	T visitTg(LogoParser.TgContext ctx);
 
 	T visitId_bool(LogoParser.Id_boolContext ctx);
 
@@ -24,6 +24,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitRe(LogoParser.ReContext ctx);
 
 	T visitTanque(LogoParser.TanqueContext ctx);
+
+	T visitListe_appel(LogoParser.Liste_appelContext ctx);
 
 	T visitListe_instructions(LogoParser.Liste_instructionsContext ctx);
 
@@ -45,6 +47,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitAffect_locale(LogoParser.Affect_localeContext ctx);
 
+	T visitAppel_fonction(LogoParser.Appel_fonctionContext ctx);
+
 	T visitPlus(LogoParser.PlusContext ctx);
 
 	T visitMinus(LogoParser.MinusContext ctx);
@@ -62,8 +66,6 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAv(LogoParser.AvContext ctx);
 
 	T visitExpr_affect(LogoParser.Expr_affectContext ctx);
-
-	T visitSi(LogoParser.SiContext ctx);
 
 	T visitAffect_id_int(LogoParser.Affect_id_intContext ctx);
 

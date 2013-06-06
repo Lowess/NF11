@@ -6,8 +6,12 @@ import org.antlr.v4.parse.ANTLRParser.atom_return;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
+import java.util.ArrayList;
+
+import tools.Fonction;
 import tools.Noeud;
 import tools.Operateur;
+import tools.TableDesFonctions;
 import tools.TableDesSymboles;
 import tools.TypeNoeud;
 import logogui.Log;
@@ -15,6 +19,7 @@ import logogui.Traceur;
 import logoparsing.LogoParser.Affect_id_boolContext;
 import logoparsing.LogoParser.Affect_id_intContext;
 import logoparsing.LogoParser.Affect_localeContext;
+import logoparsing.LogoParser.Appel_fonctionContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.Bool_etContext;
@@ -43,7 +48,6 @@ import logoparsing.LogoParser.ParentContext;
 import logoparsing.LogoParser.PlusContext;
 import logoparsing.LogoParser.ReContext;
 import logoparsing.LogoParser.RepeteContext;
-import logoparsing.LogoParser.SiContext;
 import logoparsing.LogoParser.Si_sinonContext;
 import logoparsing.LogoParser.TanqueContext;
 import logoparsing.LogoParser.TdContext;
@@ -258,12 +262,64 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	public Integer visitFonction(FonctionContext ctx) {
 		//Création de l'objet fonction
 		
-		String id = ctx.ID().getText();
+		String nomFonction = ctx.ID().getText();
 		
-		//Met à jour la table des fonctions
+		ArrayList<String> params = new ArrayList<String>();
 		
-		//Marque l'arbre
-		//setAttValue(ctx, );
+		for(int i = 0; i < ctx.liste_params().getChildCount(); i++){
+			if(!ctx.liste_params().getChild(i).getText().matches(":")){
+				System.out.println(ctx.liste_params().getChild(i).getText());
+				params.add(ctx.liste_params().getChild(i).getText());
+			}
+		}
+		
+		Fonction f = new Fonction(nomFonction, params, ctx.liste_instructions());
+		
+		TableDesFonctions.getInstance().ajouterFonction(f);
+		
+		return 0;
+	}
+	
+	public Integer visitAppel_fonction(Appel_fonctionContext ctx) {
+		visitChildren(ctx);
+		
+		String nomFonction = ctx.ID().getText();
+		
+		int arite = 0;
+		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
+		//Calcul de l'arité et mémorisation de la valeur des paramètres
+		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
+			if(!ctx.getChild(i).getText().matches(":")){
+				arite++;
+				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
+				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));
+			}
+		}
+		//Récupération de la fonction pour l'exécuter si elle existe
+		try {
+			Fonction f = TableDesFonctions.getInstance().getFonction(nomFonction, arite);
+			//Création du contexte d'appel
+			TableDesSymboles.getInstance().nouveauContext();
+			TableDesSymboles.getInstance().copieContext();
+			
+			//Création des paramètres de la fonction en table des symboles
+			ArrayList<String> params = f.getParams();
+			for(int i = 0; i < f.getArite(); i++){
+					System.out.println(params.get(i) + "<-" + valeurs.get(i));
+					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
+			}	
+			
+			//Execution de la fonction
+			visit(f.getCorps());
+			
+			//Restitution de l'ancien contexte
+			TableDesSymboles.getInstance().restaurerContext();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			Log.getInstance().getLogZone().append(e.toString());
+			return 1;
+		}
 		return 0;
 	}
 	/* 
@@ -352,31 +408,26 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	 * Expressions Conditionnelles
 	 */
 	
-	public Integer visitSi(SiContext ctx){
-		//On ne visite que l'expression booléenne
-		visit(ctx.expr_booleene());
-		Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
-		if (n.getBooleen()){
-			//Si la condition est vérifiée on explore
-			visit(ctx.bloc());
-			setAttValue(ctx, getAttValue(ctx.bloc()));	
-		}
-		return 0;	
-	}
-	
 	public Integer visitSi_sinon(Si_sinonContext ctx){
 		//On ne visite que l'expression booléenne
 		visit(ctx.expr_booleene());
 		Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
+	
+		//Mémorise le contexte précédent et en offre un nouveau
+		TableDesSymboles.getInstance().nouveauContext();
+		TableDesSymboles.getInstance().copieContext();
 		if (n.getBooleen()){
 			//Si la condition est vérifiée on execute le premier bloc
 			visit(ctx.bloc(0));
 			setAttValue(ctx, getAttValue(ctx.bloc(0)));	
 		} else {
-			//Sinon on explore l'autre bloc
-			visit(ctx.bloc(1));
-			setAttValue(ctx, getAttValue(ctx.bloc(1)));	
+			//Sinon on explore l'autre bloc si il existe
+			if(ctx.bloc().size() == 2){
+				visit(ctx.bloc(1));
+				setAttValue(ctx, getAttValue(ctx.bloc(1)));	
+			}
 		}
+		TableDesSymboles.getInstance().restaurerContext();
 		return 0;	
 	}
 	
@@ -385,7 +436,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		int n = getAttValue((ctx.expr_arithmetique())).getChiffre();
 		//variable locale LOOP
 		int loop = 1;
-		//Mémorise le contexte précédent et en offre un nouveau context
+		//Mémorise le contexte précédent et en offre un nouveau
 		TableDesSymboles.getInstance().nouveauContext();
 		TableDesSymboles.getInstance().copieContext();
 		for (int i=0 ; i < n; i++){
@@ -403,11 +454,15 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	public Integer visitTanque(TanqueContext ctx){
 		visit(ctx.expr_booleene());
 		boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
+		//Mémorise le contexte précédent et en offre un nouveau
+		TableDesSymboles.getInstance().nouveauContext();
+		TableDesSymboles.getInstance().copieContext();
 		while (b){
 			//On itére n fois
 			visit(ctx.bloc());
 			setAttValue(ctx, getAttValue(ctx.bloc()));	
 		}
+		TableDesSymboles.getInstance().restaurerContext();
 		return 0;
 	}
 	

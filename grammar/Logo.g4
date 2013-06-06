@@ -1,4 +1,4 @@
-grammar Logo; 
+grammar Logo;
 
 @header {
   package logoparsing;
@@ -12,7 +12,7 @@ grammar Logo;
 //RegExp d'ordre général
 //*****************************************
 INT : '0' | [1-9][0-9]* ;
-WS : [ \t\r\n]+ -> skip ;
+//WS : [ \t\r\n]+ -> skip ;
 ID : [a-z][a-z0-9]* ;
 
 //*****************************************
@@ -36,6 +36,7 @@ MINUS : '-' ;
 MUL : '*' ;
 DIV : '/' ;
 HASARD : 'HASARD' ;
+
 //*****************************************
 //RegExp pour les expressions booléennes
 //*****************************************
@@ -58,6 +59,7 @@ BOUCLE_REPETE : 'REPETE' ;
 BOUCLE_TANTQUE : 'TANQUE' ;
 POUR : 'POUR' ;
 FIN : 'FIN' ;
+
 //******************************************************************************************************
 // REGLES DE GRAMMAIRE
 //******************************************************************************************************
@@ -80,9 +82,14 @@ instruction:
   	| expr_affectation # expr_affect
   	| LOCALE ID # affect_locale
   	| POUR ID liste_params liste_instructions FIN # fonction
+  	| ID liste_appel # appel_fonction
   	;
   	
-liste_params: ID* ;
+liste_params: (':' ID)* ;
+
+liste_appel: 
+	expr_arithmetique *
+	;
 	
 expr_arithmetique :
 	expr_arithmetique MUL expr_arithmetique # mul
@@ -111,8 +118,7 @@ expr_booleene:
 bloc: '[' liste_instructions ']' ;
 	
 expr_conditionnelle:
-	COND_IF expr_booleene bloc # si
-	| COND_IF expr_booleene bloc bloc # si_sinon
+	COND_IF expr_booleene bloc bloc? # si_sinon
 	| BOUCLE_REPETE expr_arithmetique bloc # repete
 	| BOUCLE_TANTQUE expr_booleene bloc # tanque
 	;

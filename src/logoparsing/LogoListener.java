@@ -17,11 +17,11 @@ public interface LogoListener extends ParseTreeListener {
 	void enterHasard(LogoParser.HasardContext ctx);
 	void exitHasard(LogoParser.HasardContext ctx);
 
-	void enterTg(LogoParser.TgContext ctx);
-	void exitTg(LogoParser.TgContext ctx);
-
 	void enterDiv(LogoParser.DivContext ctx);
 	void exitDiv(LogoParser.DivContext ctx);
+
+	void enterTg(LogoParser.TgContext ctx);
+	void exitTg(LogoParser.TgContext ctx);
 
 	void enterId_bool(LogoParser.Id_boolContext ctx);
 	void exitId_bool(LogoParser.Id_boolContext ctx);
@@ -34,6 +34,9 @@ public interface LogoListener extends ParseTreeListener {
 
 	void enterTanque(LogoParser.TanqueContext ctx);
 	void exitTanque(LogoParser.TanqueContext ctx);
+
+	void enterListe_appel(LogoParser.Liste_appelContext ctx);
+	void exitListe_appel(LogoParser.Liste_appelContext ctx);
 
 	void enterListe_instructions(LogoParser.Liste_instructionsContext ctx);
 	void exitListe_instructions(LogoParser.Liste_instructionsContext ctx);
@@ -65,6 +68,9 @@ public interface LogoListener extends ParseTreeListener {
 	void enterAffect_locale(LogoParser.Affect_localeContext ctx);
 	void exitAffect_locale(LogoParser.Affect_localeContext ctx);
 
+	void enterAppel_fonction(LogoParser.Appel_fonctionContext ctx);
+	void exitAppel_fonction(LogoParser.Appel_fonctionContext ctx);
+
 	void enterPlus(LogoParser.PlusContext ctx);
 	void exitPlus(LogoParser.PlusContext ctx);
 
@@ -91,9 +97,6 @@ public interface LogoListener extends ParseTreeListener {
 
 	void enterExpr_affect(LogoParser.Expr_affectContext ctx);
 	void exitExpr_affect(LogoParser.Expr_affectContext ctx);
-
-	void enterSi(LogoParser.SiContext ctx);
-	void exitSi(LogoParser.SiContext ctx);
 
 	void enterAffect_id_int(LogoParser.Affect_id_intContext ctx);
 	void exitAffect_id_int(LogoParser.Affect_id_intContext ctx);

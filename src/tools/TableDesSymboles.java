@@ -4,17 +4,39 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-
 import logogui.Log;
 
-//Implémente le design pattern Singleton
-
+/**
+ * @author Florian DAMBRINE & Tudor LUCHIANCENCO
+ * 
+ * NF11 - Table des symboles
+ */
 public class TableDesSymboles {
+	/**
+	 * Permet de mémoriser les contextes de variables locales 
+	 * lors de l'entrée dans une boucle, une condition ou une
+	 * fonction
+	 */
 	private Stack<HashMap<String, Noeud>> context;
+	/**
+	 * Map qui contient les variables globales
+	 */
 	private HashMap<String, Noeud> symboles;
+	/**
+	 * Map qui contient les variables locales
+	 */
 	private HashMap<String, Noeud> locales;
+	/**
+	 * Instance de Table des symboles (DP Singleton)
+	 */
 	private static TableDesSymboles instance;
 	
+	/**
+	 * Récupére l'instance de Table des symboles.
+	 * Si elle n'existe pas, elle est crée, sinon
+	 * elle est retournée
+	 * @return La Table des symboles
+	 */
 	public static TableDesSymboles getInstance(){
 		if(instance == null){
 			instance = new TableDesSymboles();
@@ -22,12 +44,18 @@ public class TableDesSymboles {
 		return instance;
 	}
 	
+	/**
+	 * Détruit la Table des symboles si elle existe
+	 */
 	public static void libereInstance(){
 		if(instance != null){
 			 instance = null;
 		}
 	}
 	
+	/**
+	 * Constructeur de la Table des symboles
+	 */
 	private TableDesSymboles(){
 		//Crée la table des symboles
 		symboles = new HashMap<String, Noeud>();
@@ -39,6 +67,13 @@ public class TableDesSymboles {
 		context = new Stack<HashMap<String, Noeud>>();
 	}
 	
+	/**
+	 * Ajoute ou met à jour une variable à la Table des symboles.
+	 * Cette méthode distingue si la variables est globale ou locale
+	 * et l'insére dans le Map correspondant
+	 * @param id Nom de la variable
+	 * @param n Noeud pointé par la variable
+	 */
 	public void ajouterSymbole(String id, Noeud n){
 		//Récupération de la variable
 		try{
@@ -91,6 +126,10 @@ public class TableDesSymboles {
 		System.out.println("LOCALES: " + locales.size() + " GLOBALES " + symboles.size());
 	}
 
+	/**
+	 * Supprime la variable "id" de la Table des symboles
+	 * @param id Nom de la variable
+	 */
 	public void supprimerSymbole(String id){
 		System.out.println("L'identifiant " + id + " vient d'être supprimé de la table des symboles");
 		//tentative de suppression en locale
@@ -107,6 +146,14 @@ public class TableDesSymboles {
 		}
 	}
 	
+	/**
+	 * Retourne le noeud pointé par la variable "id" contenu
+	 * dans la Table des symboles.
+	 * @param id Nom de la variable
+	 * @return Noeud pointé par la variable "id"
+	 * @throws Exception Dans le cas ou la variable demandée
+	 * n'existe pas, une exception est émise
+	 */
 	public Noeud getSymbole(String id) throws Exception{
 		Noeud n = null;
 		//On cherche la variable en locale
@@ -124,6 +171,10 @@ public class TableDesSymboles {
 		return n;
 	}
 	
+	/**
+	 * Créé un nouveau contexte de variables locales vide
+	 * en empilant le Map de variable locale
+	 */
 	public void nouveauContext(){
 		System.out.println("Nouveau contexte créé");
 		//Les contextes mémorisent les tables de variables locales
@@ -131,8 +182,10 @@ public class TableDesSymboles {
 		locales = new HashMap<String, Noeud>();
 	}
 	
-	//Copie la table de symboles de variables locales (sauf LOOP) depuis
-	//le contexte précédent vers le nouveau contexte
+	/**
+	 * Copie la Table des symboles de variables locales (sauf LOOP) depuis
+	 * l'ancien contexte vers le nouveau contexte
+	 */
 	public void copieContext(){
 		Map<String, Noeud> hashMap = context.get(context.size()-1);
 		for (String mapKey : hashMap.keySet()) {
@@ -142,6 +195,10 @@ public class TableDesSymboles {
 		}
 	}
 	
+	/**
+	 * Dépile le contexte de variables locales et
+	 * réaffecte l'ancien contexte au Map "locales"
+	 */
 	public void restaurerContext(){
 		System.out.println("Le contexte a été détruit");
 		locales = context.pop();

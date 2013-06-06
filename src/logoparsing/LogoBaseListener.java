@@ -20,11 +20,11 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterHasard(LogoParser.HasardContext ctx) { }
 	@Override public void exitHasard(LogoParser.HasardContext ctx) { }
 
-	@Override public void enterTg(LogoParser.TgContext ctx) { }
-	@Override public void exitTg(LogoParser.TgContext ctx) { }
-
 	@Override public void enterDiv(LogoParser.DivContext ctx) { }
 	@Override public void exitDiv(LogoParser.DivContext ctx) { }
+
+	@Override public void enterTg(LogoParser.TgContext ctx) { }
+	@Override public void exitTg(LogoParser.TgContext ctx) { }
 
 	@Override public void enterId_bool(LogoParser.Id_boolContext ctx) { }
 	@Override public void exitId_bool(LogoParser.Id_boolContext ctx) { }
@@ -37,6 +37,9 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterTanque(LogoParser.TanqueContext ctx) { }
 	@Override public void exitTanque(LogoParser.TanqueContext ctx) { }
+
+	@Override public void enterListe_appel(LogoParser.Liste_appelContext ctx) { }
+	@Override public void exitListe_appel(LogoParser.Liste_appelContext ctx) { }
 
 	@Override public void enterListe_instructions(LogoParser.Liste_instructionsContext ctx) { }
 	@Override public void exitListe_instructions(LogoParser.Liste_instructionsContext ctx) { }
@@ -68,6 +71,9 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterAffect_locale(LogoParser.Affect_localeContext ctx) { }
 	@Override public void exitAffect_locale(LogoParser.Affect_localeContext ctx) { }
 
+	@Override public void enterAppel_fonction(LogoParser.Appel_fonctionContext ctx) { }
+	@Override public void exitAppel_fonction(LogoParser.Appel_fonctionContext ctx) { }
+
 	@Override public void enterPlus(LogoParser.PlusContext ctx) { }
 	@Override public void exitPlus(LogoParser.PlusContext ctx) { }
 
@@ -94,9 +100,6 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterExpr_affect(LogoParser.Expr_affectContext ctx) { }
 	@Override public void exitExpr_affect(LogoParser.Expr_affectContext ctx) { }
-
-	@Override public void enterSi(LogoParser.SiContext ctx) { }
-	@Override public void exitSi(LogoParser.SiContext ctx) { }
 
 	@Override public void enterAffect_id_int(LogoParser.Affect_id_intContext ctx) { }
 	@Override public void exitAffect_id_int(LogoParser.Affect_id_intContext ctx) { }

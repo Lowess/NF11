@@ -1,18 +1,20 @@
 package tools;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Fonction {
 	private String nom;
-	private int artite;
-	private HashMap<String, Noeud> params;
+	private int arite;
+	private ArrayList<String> params;
 	private ParseTree corps;
 	
-	public Fonction(String nom, HashMap<String, Noeud> params, ParseTree corps){
+	public Fonction(String nom, ArrayList<String> params, ParseTree corps){
 		this.nom = nom;
-		this.params = new HashMap<String, Noeud>(params);
+		this.params = new ArrayList<String>(params);
+		this.arite = params.size();
 		this.corps = corps;
 	}
 
@@ -20,15 +22,23 @@ public class Fonction {
 		return nom;
 	}
 
-	public int getArtite() {
-		return artite;
+	public int getArite() {
+		return arite;
 	}
 
-	public HashMap<String, Noeud> getParams() {
+	public ArrayList<String> getParams() {
 		return params;
 	}
 
 	public ParseTree getCorps() {
 		return corps;
+	}
+	
+	public String getId() {
+		return nom + "_" + arite;
+	}
+	
+	public static String toId(String nom, int arite){
+		return nom + "_" + arite;
 	}
 }

@@ -14,9 +14,9 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitHasard(LogoParser.HasardContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitTg(LogoParser.TgContext ctx) { return visitChildren(ctx); }
-
 	@Override public T visitDiv(LogoParser.DivContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitTg(LogoParser.TgContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitId_bool(LogoParser.Id_boolContext ctx) { return visitChildren(ctx); }
 
@@ -25,6 +25,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitRe(LogoParser.ReContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitTanque(LogoParser.TanqueContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitListe_appel(LogoParser.Liste_appelContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitListe_instructions(LogoParser.Liste_instructionsContext ctx) { return visitChildren(ctx); }
 
@@ -46,6 +48,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitAffect_locale(LogoParser.Affect_localeContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitAppel_fonction(LogoParser.Appel_fonctionContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitPlus(LogoParser.PlusContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitMinus(LogoParser.MinusContext ctx) { return visitChildren(ctx); }
@@ -63,8 +67,6 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitAv(LogoParser.AvContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitExpr_affect(LogoParser.Expr_affectContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitSi(LogoParser.SiContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitAffect_id_int(LogoParser.Affect_id_intContext ctx) { return visitChildren(ctx); }
 
