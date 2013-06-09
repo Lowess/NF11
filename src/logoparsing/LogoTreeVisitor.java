@@ -8,10 +8,10 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 
-import tools.Fonction;
 import tools.Noeud;
 import tools.Operateur;
-import tools.TableDesFonctions;
+import tools.Procedure;
+import tools.TableDesProcedures;
 import tools.TableDesSymboles;
 import tools.TypeNoeud;
 import logogui.Log;
@@ -19,7 +19,6 @@ import logogui.Traceur;
 import logoparsing.LogoParser.Affect_id_boolContext;
 import logoparsing.LogoParser.Affect_id_intContext;
 import logoparsing.LogoParser.Affect_localeContext;
-import logoparsing.LogoParser.Appel_fonctionContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.Bool_etContext;
@@ -33,7 +32,6 @@ import logoparsing.LogoParser.DivContext;
 import logoparsing.LogoParser.Expr_affectContext;
 import logoparsing.LogoParser.Expr_condContext;
 import logoparsing.LogoParser.FccContext;
-import logoparsing.LogoParser.FonctionContext;
 import logoparsing.LogoParser.FposContext;
 import logoparsing.LogoParser.HasardContext;
 import logoparsing.LogoParser.IdContext;
@@ -46,6 +44,7 @@ import logoparsing.LogoParser.MulContext;
 import logoparsing.LogoParser.NegContext;
 import logoparsing.LogoParser.ParentContext;
 import logoparsing.LogoParser.PlusContext;
+import logoparsing.LogoParser.ProcedureContext;
 import logoparsing.LogoParser.ReContext;
 import logoparsing.LogoParser.RepeteContext;
 import logoparsing.LogoParser.Si_sinonContext;
@@ -259,8 +258,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 	
-	public Integer visitFonction(FonctionContext ctx) {
-		//Création de l'objet fonction
+	public Integer visitProcedure(ProcedureContext ctx) {
+		//Création de l'objet procédure
 		
 		String nomFonction = ctx.ID().getText();
 		
@@ -273,55 +272,55 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 			}
 		}
 		
-		Fonction f = new Fonction(nomFonction, params, ctx.liste_instructions());
+		Procedure f = new Procedure(nomFonction, params, ctx.liste_instructions());
 		
-		TableDesFonctions.getInstance().ajouterFonction(f);
+		TableDesProcedures.getInstance().ajouterProcedure(f);
 		
 		return 0;
 	}
 	
-	public Integer visitAppel_fonction(Appel_fonctionContext ctx) {
-		visitChildren(ctx);
-		
-		String nomFonction = ctx.ID().getText();
-		
-		int arite = 0;
-		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
-		//Calcul de l'arité et mémorisation de la valeur des paramètres
-		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
-			if(!ctx.getChild(i).getText().matches(":")){
-				arite++;
-				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
-				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));
-			}
-		}
-		//Récupération de la fonction pour l'exécuter si elle existe
-		try {
-			Fonction f = TableDesFonctions.getInstance().getFonction(nomFonction, arite);
-			//Création du contexte d'appel
-			TableDesSymboles.getInstance().nouveauContext();
-			TableDesSymboles.getInstance().copieContext();
-			
-			//Création des paramètres de la fonction en table des symboles
-			ArrayList<String> params = f.getParams();
-			for(int i = 0; i < f.getArite(); i++){
-					System.out.println(params.get(i) + "<-" + valeurs.get(i));
-					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
-			}	
-			
-			//Execution de la fonction
-			visit(f.getCorps());
-			
-			//Restitution de l'ancien contexte
-			TableDesSymboles.getInstance().restaurerContext();
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			Log.getInstance().getLogZone().append(e.toString());
-			return 1;
-		}
-		return 0;
-	}
+//	public Integer visitAppel_procedure(Appel_procedureContext ctx) {
+//		visitChildren(ctx);
+//		
+//		String nomFonction = ctx.ID().getText();
+//		
+//		int arite = 0;
+//		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
+//		//Calcul de l'arité et mémorisation de la valeur des paramètres
+//		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
+//			if(!ctx.getChild(i).getText().matches(":")){
+//				arite++;
+//				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
+//				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
+//			}
+//		}
+//		//Récupération de la fonction pour l'exécuter si elle existe
+//		try {
+//			Fonction f = TableDesFonctions.getInstance().getFonction(nomFonction, arite);
+//			//Création du contexte d'appel
+//			TableDesSymboles.getInstance().nouveauContext();
+//			TableDesSymboles.getInstance().copieContext();
+//			
+//			//Création des paramètres de la fonction en table des symboles
+//			ArrayList<String> params = f.getParams();
+//			for(int i = 0; i < f.getArite(); i++){
+//					System.out.println(params.get(i) + "<-" + valeurs.get(i));
+//					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
+//			}	
+//			
+//			//Execution de la fonction
+//			visit(f.getCorps());
+//			
+//			//Restitution de l'ancien contexte
+//			TableDesSymboles.getInstance().restaurerContext();
+//			
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//			Log.getInstance().getLogZone().append(e.toString());
+//			return 1;
+//		}
+//		return 0;
+//	}
 	/* 
 	 * Expressions Booléennes
 	 */
@@ -368,7 +367,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	}
 	
 	public Integer visitBool_op_arithm(Bool_op_arithmContext ctx) {
-		System.out.println("ICI");
 		visitChildren(ctx);
 		Operateur op = new Operateur(ctx.OP_INT().toString());
 		boolean val = op.appliqueOperateur(getAttValue(ctx.expr_arithmetique(0)), getAttValue(ctx.expr_arithmetique(1)));
@@ -415,7 +413,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	
 		//Mémorise le contexte précédent et en offre un nouveau
 		TableDesSymboles.getInstance().nouveauContext();
-		TableDesSymboles.getInstance().copieContext();
 		if (n.getBooleen()){
 			//Si la condition est vérifiée on execute le premier bloc
 			visit(ctx.bloc(0));
@@ -438,7 +435,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		int loop = 1;
 		//Mémorise le contexte précédent et en offre un nouveau
 		TableDesSymboles.getInstance().nouveauContext();
-		TableDesSymboles.getInstance().copieContext();
 		for (int i=0 ; i < n; i++){
 			TableDesSymboles.getInstance().ajouterSymbole("LOOP", new Noeud(loop));
 			//On itére n fois
@@ -456,7 +452,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
 		//Mémorise le contexte précédent et en offre un nouveau
 		TableDesSymboles.getInstance().nouveauContext();
-		TableDesSymboles.getInstance().copieContext();
 		while (b){
 			//On itére n fois
 			visit(ctx.bloc());

@@ -11,6 +11,9 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterBool_et(LogoParser.Bool_etContext ctx) { }
 	@Override public void exitBool_et(LogoParser.Bool_etContext ctx) { }
 
+	@Override public void enterListe_procedures(LogoParser.Liste_proceduresContext ctx) { }
+	@Override public void exitListe_procedures(LogoParser.Liste_proceduresContext ctx) { }
+
 	@Override public void enterNeg(LogoParser.NegContext ctx) { }
 	@Override public void exitNeg(LogoParser.NegContext ctx) { }
 
@@ -50,11 +53,11 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterAffect_id_bool(LogoParser.Affect_id_boolContext ctx) { }
 	@Override public void exitAffect_id_bool(LogoParser.Affect_id_boolContext ctx) { }
 
-	@Override public void enterVe(LogoParser.VeContext ctx) { }
-	@Override public void exitVe(LogoParser.VeContext ctx) { }
-
 	@Override public void enterLoop(LogoParser.LoopContext ctx) { }
 	@Override public void exitLoop(LogoParser.LoopContext ctx) { }
+
+	@Override public void enterVe(LogoParser.VeContext ctx) { }
+	@Override public void exitVe(LogoParser.VeContext ctx) { }
 
 	@Override public void enterListe_params(LogoParser.Liste_paramsContext ctx) { }
 	@Override public void exitListe_params(LogoParser.Liste_paramsContext ctx) { }
@@ -68,11 +71,11 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterBc(LogoParser.BcContext ctx) { }
 	@Override public void exitBc(LogoParser.BcContext ctx) { }
 
+	@Override public void enterProcedure(LogoParser.ProcedureContext ctx) { }
+	@Override public void exitProcedure(LogoParser.ProcedureContext ctx) { }
+
 	@Override public void enterAffect_locale(LogoParser.Affect_localeContext ctx) { }
 	@Override public void exitAffect_locale(LogoParser.Affect_localeContext ctx) { }
-
-	@Override public void enterAppel_fonction(LogoParser.Appel_fonctionContext ctx) { }
-	@Override public void exitAppel_fonction(LogoParser.Appel_fonctionContext ctx) { }
 
 	@Override public void enterPlus(LogoParser.PlusContext ctx) { }
 	@Override public void exitPlus(LogoParser.PlusContext ctx) { }
@@ -94,6 +97,9 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterMul(LogoParser.MulContext ctx) { }
 	@Override public void exitMul(LogoParser.MulContext ctx) { }
+
+	@Override public void enterAppel_procedure(LogoParser.Appel_procedureContext ctx) { }
+	@Override public void exitAppel_procedure(LogoParser.Appel_procedureContext ctx) { }
 
 	@Override public void enterAv(LogoParser.AvContext ctx) { }
 	@Override public void exitAv(LogoParser.AvContext ctx) { }
@@ -118,9 +124,6 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterFpos(LogoParser.FposContext ctx) { }
 	@Override public void exitFpos(LogoParser.FposContext ctx) { }
-
-	@Override public void enterFonction(LogoParser.FonctionContext ctx) { }
-	@Override public void exitFonction(LogoParser.FonctionContext ctx) { }
 
 	@Override public void enterLc(LogoParser.LcContext ctx) { }
 	@Override public void exitLc(LogoParser.LcContext ctx) { }

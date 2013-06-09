@@ -8,6 +8,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LogoVisitor<T> {
 	@Override public T visitBool_et(LogoParser.Bool_etContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitListe_procedures(LogoParser.Liste_proceduresContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitNeg(LogoParser.NegContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitBool_faux(LogoParser.Bool_fauxContext ctx) { return visitChildren(ctx); }
@@ -34,9 +36,9 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitAffect_id_bool(LogoParser.Affect_id_boolContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitVe(LogoParser.VeContext ctx) { return visitChildren(ctx); }
-
 	@Override public T visitLoop(LogoParser.LoopContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitVe(LogoParser.VeContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitListe_params(LogoParser.Liste_paramsContext ctx) { return visitChildren(ctx); }
 
@@ -46,9 +48,9 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitBc(LogoParser.BcContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitAffect_locale(LogoParser.Affect_localeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedure(LogoParser.ProcedureContext ctx) { return visitChildren(ctx); }
 
-	@Override public T visitAppel_fonction(LogoParser.Appel_fonctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAffect_locale(LogoParser.Affect_localeContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitPlus(LogoParser.PlusContext ctx) { return visitChildren(ctx); }
 
@@ -63,6 +65,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitBool_ou(LogoParser.Bool_ouContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitMul(LogoParser.MulContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitAppel_procedure(LogoParser.Appel_procedureContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitAv(LogoParser.AvContext ctx) { return visitChildren(ctx); }
 
@@ -79,8 +83,6 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitBool_vrai(LogoParser.Bool_vraiContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitFpos(LogoParser.FposContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitFonction(LogoParser.FonctionContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitLc(LogoParser.LcContext ctx) { return visitChildren(ctx); }
 

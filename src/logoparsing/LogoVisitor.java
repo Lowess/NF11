@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.Token;
 public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBool_et(LogoParser.Bool_etContext ctx);
 
+	T visitListe_procedures(LogoParser.Liste_proceduresContext ctx);
+
 	T visitNeg(LogoParser.NegContext ctx);
 
 	T visitBool_faux(LogoParser.Bool_fauxContext ctx);
@@ -33,9 +35,9 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitAffect_id_bool(LogoParser.Affect_id_boolContext ctx);
 
-	T visitVe(LogoParser.VeContext ctx);
-
 	T visitLoop(LogoParser.LoopContext ctx);
+
+	T visitVe(LogoParser.VeContext ctx);
 
 	T visitListe_params(LogoParser.Liste_paramsContext ctx);
 
@@ -45,9 +47,9 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitBc(LogoParser.BcContext ctx);
 
-	T visitAffect_locale(LogoParser.Affect_localeContext ctx);
+	T visitProcedure(LogoParser.ProcedureContext ctx);
 
-	T visitAppel_fonction(LogoParser.Appel_fonctionContext ctx);
+	T visitAffect_locale(LogoParser.Affect_localeContext ctx);
 
 	T visitPlus(LogoParser.PlusContext ctx);
 
@@ -62,6 +64,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBool_ou(LogoParser.Bool_ouContext ctx);
 
 	T visitMul(LogoParser.MulContext ctx);
+
+	T visitAppel_procedure(LogoParser.Appel_procedureContext ctx);
 
 	T visitAv(LogoParser.AvContext ctx);
 
@@ -78,8 +82,6 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBool_vrai(LogoParser.Bool_vraiContext ctx);
 
 	T visitFpos(LogoParser.FposContext ctx);
-
-	T visitFonction(LogoParser.FonctionContext ctx);
 
 	T visitLc(LogoParser.LcContext ctx);
 

@@ -1,6 +1,7 @@
 package tools;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
 
@@ -65,6 +66,8 @@ public class TableDesSymboles {
 				
 		//Crée la pile contextuelle
 		context = new Stack<HashMap<String, Noeud>>();
+		
+		context.push(locales);
 	}
 	
 	/**
@@ -79,8 +82,8 @@ public class TableDesSymboles {
 		try{
 			//MISE A JOUR D UN SYMBOLE EXISTANT
 			getSymbole(id);
-			//Si la variable globale existe mais que l'on créée une variable locale
-			//alors on privilégie la variable locale
+			//Si la variable globale existe mais que l'on créée 
+			//une variable locale alors on privilégie la variable locale
 			if(n == null){
 				//Si locale
 				System.out.print("TableDesSymboles création de variables LOCALES: ");
@@ -134,7 +137,7 @@ public class TableDesSymboles {
 		System.out.println("L'identifiant " + id + " vient d'être supprimé de la table des symboles");
 		//tentative de suppression en locale
 		try {
-			locales.remove(id);	
+			locales.remove(id);
 		} catch (Exception e){
 			//Si echec tantative en global
 			try {
@@ -156,10 +159,19 @@ public class TableDesSymboles {
 	 */
 	public Noeud getSymbole(String id) throws Exception{
 		Noeud n = null;
-		//On cherche la variable en locale
-		if(locales.containsKey(id)){
-			n = locales.get(id);
-		} else {
+		//On cherche la variable en locale dans les piles contextuelles
+		int l = context.size() - 1;
+		boolean flag = false;
+		while(l >= 0  && flag == false){
+			System.out.println("ICI " + l);
+			if(context.get(l).containsKey(id)){
+				System.out.println(context.get(l));
+				n = context.get(l).get(id);
+				flag = true;
+			}
+			l--;
+		}
+		if(flag == false){
 			//Sinon en global
 			if (symboles.containsKey(id)){
 				n = symboles.get(id);
@@ -170,7 +182,7 @@ public class TableDesSymboles {
 		}
 		return n;
 	}
-	
+
 	/**
 	 * Créé un nouveau contexte de variables locales vide
 	 * en empilant le Map de variable locale
@@ -178,29 +190,22 @@ public class TableDesSymboles {
 	public void nouveauContext(){
 		System.out.println("Nouveau contexte créé");
 		//Les contextes mémorisent les tables de variables locales
-		context.push(locales);
+		//context.push(locales);
 		locales = new HashMap<String, Noeud>();
+		context.push(locales);
+		
 	}
-	
-	/**
-	 * Copie la Table des symboles de variables locales (sauf LOOP) depuis
-	 * l'ancien contexte vers le nouveau contexte
-	 */
-	public void copieContext(){
-		Map<String, Noeud> hashMap = context.get(context.size()-1);
-		for (String mapKey : hashMap.keySet()) {
-			if(mapKey != "LOOP"){
-				locales.put(mapKey, hashMap.get(mapKey));
-			}
-		}
-	}
-	
+		
 	/**
 	 * Dépile le contexte de variables locales et
 	 * réaffecte l'ancien contexte au Map "locales"
 	 */
 	public void restaurerContext(){
 		System.out.println("Le contexte a été détruit");
-		locales = context.pop();
+		//Destruction du contexte
+		context.pop();
+		
+		//Pointe sur le contexte de sommet de pile
+		locales = context.peek();
 	}
 }
