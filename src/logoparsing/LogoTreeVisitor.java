@@ -19,6 +19,7 @@ import logogui.Traceur;
 import logoparsing.LogoParser.Affect_id_boolContext;
 import logoparsing.LogoParser.Affect_id_intContext;
 import logoparsing.LogoParser.Affect_localeContext;
+import logoparsing.LogoParser.Appel_procContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
 import logoparsing.LogoParser.Bool_etContext;
@@ -42,11 +43,14 @@ import logoparsing.LogoParser.LoopContext;
 import logoparsing.LogoParser.MinusContext;
 import logoparsing.LogoParser.MulContext;
 import logoparsing.LogoParser.NegContext;
+import logoparsing.LogoParser.Neg_idContext;
 import logoparsing.LogoParser.ParentContext;
 import logoparsing.LogoParser.PlusContext;
 import logoparsing.LogoParser.ProcedureContext;
+import logoparsing.LogoParser.RcContext;
 import logoparsing.LogoParser.ReContext;
 import logoparsing.LogoParser.RepeteContext;
+import logoparsing.LogoParser.RetContext;
 import logoparsing.LogoParser.Si_sinonContext;
 import logoparsing.LogoParser.TanqueContext;
 import logoparsing.LogoParser.TdContext;
@@ -60,6 +64,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	public LogoTreeVisitor() {
 		super();
 	}
+	
 	public void initialize(java.awt.Graphics g) {
 	      traceur = new Traceur();
 	      traceur.setGraphics(g);
@@ -72,22 +77,46 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	public Noeud getAttValue(ParseTree node) { return atts.get(node); }
 	
 	/*
-	 * 
+	 ************************************************************************************************************** 
 	 * Commandes Logo
-	 * 
+	 ************************************************************************************************************** 
 	 */
 	@Override
 	public Integer visitAv(AvContext ctx) {
-		visitChildren(ctx);
-		//TO DO
-		//Remplacer visitChildren par visitExpr_arithmetique() pour gérer les cas
-		//d'erreurs en fonction du code de retour de la fonction visit...
-		//pour les cas ou les variables n'existes pas ou alors si LOOP est utilisé au
-		//mauvais endroit
-		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
-		traceur.avance(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		return 0;
+		Integer code = visitChildren(ctx);
+		Integer ret = 0;
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.avance(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+			case 1:
+				Log.getInstance().getLogZone().append("Erreur lors de la compilation du code...\n");
+				ret = 1;
+			default:
+				break;
+		}
+		return ret;
 	}
+
+	@Override
+	public Integer visitRc(RcContext ctx) {
+		Integer code = visitChildren(ctx);
+		Integer ret = 0;
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.avance(-getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+			case 1:
+				Log.getInstance().getLogZone().append("Erreur lors de la compilation du code...\n");
+				ret = 1;
+			default:
+				break;
+		}
+		return ret;
+	}
+
 	@Override
 	public Integer visitTd(TdContext ctx) {
 		visitChildren(ctx);
@@ -140,7 +169,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		traceur.fpos(getAttValue(ctx.expr_arithmetique().get(0)).getChiffre(), getAttValue(ctx.expr_arithmetique().get(1)).getChiffre());
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitFcc(FccContext ctx) {
 		visitChildren(ctx);
 		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
@@ -148,18 +178,21 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 
+	@Override
 	public Integer visitExpr_cond(Expr_condContext ctx){
 		visitChildren(ctx);
 		setAttValue(ctx, getAttValue(ctx.expr_conditionnelle()));
 		return 0;	
 	}
-	
+
+	@Override
 	public Integer visitExpr_affect(Expr_affectContext ctx){
 		visitChildren(ctx);
 		setAttValue(ctx, getAttValue(ctx.expr_affectation()));
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitAffect_locale(Affect_localeContext ctx){
 		visitChildren(ctx);
 		//Récupére l'id
@@ -170,18 +203,20 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	}
 	
 	/*
-	 *
+	 **************************************************************************************************************
 	 * Expressions arithmétiques
-	 * 
+	 **************************************************************************************************************
 	 */
-	
+
+	@Override
 	public Integer visitMul(MulContext ctx) {
 		visitChildren(ctx);
 		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() * getAttValue(ctx.expr_arithmetique(1)).getChiffre());
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitDiv(DivContext ctx) {
 		visitChildren(ctx); 
 		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() / getAttValue(ctx.expr_arithmetique(1)).getChiffre());
@@ -189,6 +224,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 	
+	@Override
 	public Integer visitPlus(PlusContext ctx) {
 		visitChildren(ctx);
 		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() + getAttValue(ctx.expr_arithmetique(1)).getChiffre());
@@ -196,20 +232,24 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 	
+
+	@Override
 	public Integer visitMinus(MinusContext ctx) {
 		visitChildren(ctx);
 		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() - getAttValue(ctx.expr_arithmetique(1)).getChiffre());
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitHasard(HasardContext ctx) {
 		visitChildren(ctx);
 		Noeud n = new Noeud((int)(Math.random() * (getAttValue(ctx.expr_arithmetique()).getChiffre())));
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitInt(IntContext ctx) {
 		visitChildren(ctx);
 		String op1Text = ctx.INT().getText();
@@ -218,6 +258,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 
+	@Override
 	public Integer visitNeg(NegContext ctx) {
 		visitChildren(ctx);
 		String op1Text = ctx.INT().getText();
@@ -225,7 +266,23 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
+	public Integer visitNeg_id(Neg_idContext ctx) {
+		try{
+			visitChildren(ctx);
+			String op1Text = ctx.ID().getText();
+			Noeud n = new Noeud(-TableDesSymboles.getInstance().getSymbole(op1Text).getChiffre());
+			setAttValue(ctx, n);
+		} catch (Exception e) { 
+			System.out.println(e.toString());
+			Log.getInstance().getLogZone().append(e.toString());
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
 	public Integer visitId(IdContext ctx) {
 		try{
 			visitChildren(ctx);
@@ -239,13 +296,15 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		}
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitParent(ParentContext ctx) {
 		visitChildren(ctx);
 		setAttValue(ctx, getAttValue(ctx.expr_arithmetique()));
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitLoop(LoopContext ctx) {
 		visitChildren(ctx);
 		try{
@@ -257,7 +316,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		}
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitProcedure(ProcedureContext ctx) {
 		//Création de l'objet procédure
 		
@@ -278,59 +338,71 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		
 		return 0;
 	}
+
+	@Override
+	public Integer visitAppel_proc(Appel_procContext ctx) {
+		visitChildren(ctx);
+		
+		String nomFonction = ctx.ID().getText();
+		
+		int arite = 0;
+		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
+		//Calcul de l'arité et mémorisation de la valeur des paramètres
+		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
+			if(!ctx.getChild(i).getText().matches(":")){
+				arite++;
+				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
+				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
+			}
+		}
+		//Récupération de la fonction pour l'exécuter si elle existe
+		try {
+			Procedure f = TableDesProcedures.getInstance().getFonction(nomFonction, arite);
+			//Création du contexte d'appel
+			TableDesSymboles.getInstance().nouveauContext();
+			
+			//Création des paramètres de la fonction en table des symboles
+			ArrayList<String> params = f.getParams();
+			for(int i = 0; i < f.getArite(); i++){
+					System.out.println(params.get(i) + "<-" + valeurs.get(i));
+					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
+			}	
+			
+			//Execution de la fonction
+			visit(f.getCorps());
+			
+			//Restitution de l'ancien contexte
+			TableDesSymboles.getInstance().restaurerContext();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			Log.getInstance().getLogZone().append(e.toString());
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public Integer visitRet(RetContext ctx) {
+		visitChildren(ctx);
+		
+		return 0;
+	}
 	
-//	public Integer visitAppel_procedure(Appel_procedureContext ctx) {
-//		visitChildren(ctx);
-//		
-//		String nomFonction = ctx.ID().getText();
-//		
-//		int arite = 0;
-//		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
-//		//Calcul de l'arité et mémorisation de la valeur des paramètres
-//		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
-//			if(!ctx.getChild(i).getText().matches(":")){
-//				arite++;
-//				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
-//				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
-//			}
-//		}
-//		//Récupération de la fonction pour l'exécuter si elle existe
-//		try {
-//			Fonction f = TableDesFonctions.getInstance().getFonction(nomFonction, arite);
-//			//Création du contexte d'appel
-//			TableDesSymboles.getInstance().nouveauContext();
-//			TableDesSymboles.getInstance().copieContext();
-//			
-//			//Création des paramètres de la fonction en table des symboles
-//			ArrayList<String> params = f.getParams();
-//			for(int i = 0; i < f.getArite(); i++){
-//					System.out.println(params.get(i) + "<-" + valeurs.get(i));
-//					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
-//			}	
-//			
-//			//Execution de la fonction
-//			visit(f.getCorps());
-//			
-//			//Restitution de l'ancien contexte
-//			TableDesSymboles.getInstance().restaurerContext();
-//			
-//		} catch (Exception e) {
-//			System.out.println(e.toString());
-//			Log.getInstance().getLogZone().append(e.toString());
-//			return 1;
-//		}
-//		return 0;
-//	}
 	/* 
+	 ***************************************************************************************************************
 	 * Expressions Booléennes
+	 ***************************************************************************************************************
 	 */
-	
+
+	@Override
 	public Integer visitBool_parent(Bool_parentContext ctx) {
 		visitChildren(ctx);
 		setAttValue(ctx, getAttValue(ctx.expr_booleene()));
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitBool_et(Bool_etContext ctx) {
 		visitChildren(ctx);
 		boolean val = (getAttValue(ctx.expr_booleene(0)).getBooleen() && getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false);
@@ -339,6 +411,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	} 
 
+	@Override
 	public Integer visitBool_ou(Bool_ouContext ctx) {
 		visitChildren(ctx);
 		boolean val = ((getAttValue(ctx.expr_booleene(0)).getBooleen()) || (getAttValue(ctx.expr_booleene(1)).getBooleen())) ? true : false;
@@ -346,7 +419,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitBool_op_bool(Bool_op_boolContext ctx) {
 		visitChildren(ctx);
 		Operateur op = new Operateur(ctx.OP_BOOL().getText());
@@ -365,7 +439,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitBool_op_arithm(Bool_op_arithmContext ctx) {
 		visitChildren(ctx);
 		Operateur op = new Operateur(ctx.OP_INT().toString());
@@ -374,13 +449,16 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		setAttValue(ctx, n);
 		return 0;
 	}
+
+	@Override
 	public Integer visitBool_vrai(Bool_vraiContext ctx){
 		visitChildren(ctx);
 		Noeud n = new Noeud(true);
 		setAttValue(ctx, n);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitBool_faux(Bool_fauxContext ctx){
 		visitChildren(ctx);
 		Noeud n = new Noeud(false);
@@ -388,6 +466,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;	
 	}
 
+	@Override
 	public Integer visitId_bool(Id_boolContext ctx) {
 		try{
 			visitChildren(ctx);
@@ -402,10 +481,13 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 
-	/* 
+	/*
+	 ***************************************************************************************************************
 	 * Expressions Conditionnelles
+	 ***************************************************************************************************************
 	 */
-	
+
+	@Override
 	public Integer visitSi_sinon(Si_sinonContext ctx){
 		//On ne visite que l'expression booléenne
 		visit(ctx.expr_booleene());
@@ -427,7 +509,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		TableDesSymboles.getInstance().restaurerContext();
 		return 0;	
 	}
-	
+
+	@Override
 	public Integer visitRepete(RepeteContext ctx){
 		visit(ctx.expr_arithmetique());
 		int n = getAttValue((ctx.expr_arithmetique())).getChiffre();
@@ -446,7 +529,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		TableDesSymboles.getInstance().restaurerContext();
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitTanque(TanqueContext ctx){
 		visit(ctx.expr_booleene());
 		boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
@@ -462,9 +546,12 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	}
 	
 	/* 
+	 ***************************************************************************************************************
 	 * Expressions d'affectation
+	 ***************************************************************************************************************
 	 */
-	
+
+	@Override
 	public Integer visitAffect_id_int(Affect_id_intContext ctx){
 		visitChildren(ctx);
 		//Constitue la paire <id, symbole>
@@ -478,7 +565,8 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		setAttValue(ctx, n2);
 		return 0;
 	}
-	
+
+	@Override
 	public Integer visitAffect_id_bool(Affect_id_boolContext ctx){
 		visitChildren(ctx);
 		//Constitue la paire <id, symbole>
@@ -494,4 +582,3 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 		return 0;
 	}
 }
- 

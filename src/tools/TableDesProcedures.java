@@ -51,7 +51,7 @@ public class TableDesProcedures {
 		} else {
 			System.out.println("La fonction" + nom + "(" + arite + ")" + " n'existe pas\r\n");
 			Log.getInstance().getLogZone().append("La fonction " + nom + "(" + arite + ")" + " n'existe pas\r\n");
-			throw new Exception("La variable demandée n'existe pas\r\n");
+			throw new Exception("La fonction ou procédure demandée n'existe pas\r\n");
 		}
 	}
 }

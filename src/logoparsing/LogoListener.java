@@ -5,6 +5,9 @@ import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.Token;
 
 public interface LogoListener extends ParseTreeListener {
+	void enterRet(LogoParser.RetContext ctx);
+	void exitRet(LogoParser.RetContext ctx);
+
 	void enterBool_et(LogoParser.Bool_etContext ctx);
 	void exitBool_et(LogoParser.Bool_etContext ctx);
 
@@ -40,6 +43,9 @@ public interface LogoListener extends ParseTreeListener {
 
 	void enterListe_appel(LogoParser.Liste_appelContext ctx);
 	void exitListe_appel(LogoParser.Liste_appelContext ctx);
+
+	void enterRc(LogoParser.RcContext ctx);
+	void exitRc(LogoParser.RcContext ctx);
 
 	void enterListe_instructions(LogoParser.Liste_instructionsContext ctx);
 	void exitListe_instructions(LogoParser.Liste_instructionsContext ctx);
@@ -80,6 +86,9 @@ public interface LogoListener extends ParseTreeListener {
 	void enterMinus(LogoParser.MinusContext ctx);
 	void exitMinus(LogoParser.MinusContext ctx);
 
+	void enterAppel_proc(LogoParser.Appel_procContext ctx);
+	void exitAppel_proc(LogoParser.Appel_procContext ctx);
+
 	void enterInt(LogoParser.IntContext ctx);
 	void exitInt(LogoParser.IntContext ctx);
 
@@ -89,14 +98,14 @@ public interface LogoListener extends ParseTreeListener {
 	void enterParent(LogoParser.ParentContext ctx);
 	void exitParent(LogoParser.ParentContext ctx);
 
+	void enterNeg_id(LogoParser.Neg_idContext ctx);
+	void exitNeg_id(LogoParser.Neg_idContext ctx);
+
 	void enterBool_ou(LogoParser.Bool_ouContext ctx);
 	void exitBool_ou(LogoParser.Bool_ouContext ctx);
 
 	void enterMul(LogoParser.MulContext ctx);
 	void exitMul(LogoParser.MulContext ctx);
-
-	void enterAppel_procedure(LogoParser.Appel_procedureContext ctx);
-	void exitAppel_procedure(LogoParser.Appel_procedureContext ctx);
 
 	void enterAv(LogoParser.AvContext ctx);
 	void exitAv(LogoParser.AvContext ctx);

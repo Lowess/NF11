@@ -7,10 +7,6 @@ public class Operateur {
 		return opCode;
 	}
 
-	public void setOpCode(OperateurEnum opCode) {
-		this.opCode = opCode;
-	}
-
 	public Operateur(String op){
 		if(op.matches("<=")){
 			opCode=OperateurEnum.INF_EGAL;

@@ -40,39 +40,20 @@ public class Noeud {
 		return chiffre;
 	}
 
-	public void setChiffre(Integer chiffre) {
-		this.chiffre = chiffre;
-	}
 
 	public Boolean getBooleen() {
 		return booleen;
-	}
-
-	public void setBooleen(Boolean booleen) {
-		this.booleen = booleen;
 	}
 
 	public String getIdentificateur() {
 		return identificateur;
 	}
 
-	public void setIdentificateur(String identificateur) {
-		this.identificateur = identificateur;
-	}
-
 	public TypeNoeud getTypeNoeud() {
 		return typeNoeud;
 	}
 
-	public void setTypeNoeud(TypeNoeud typeNoeud) {
-		this.typeNoeud = typeNoeud;
-	}
-
 	public TypeNoeud getTypeValeur() {
 		return typeValeur;
-	}
-
-	public void setTypeValeur(TypeNoeud typeValeur) {
-		this.typeValeur = typeValeur;
 	}
 }

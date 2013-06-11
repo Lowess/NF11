@@ -26,7 +26,7 @@ OP_INT : '<'|'<='|'='|'>='|'>' ;
 // REGLES DE GRAMMAIRE
 //********************************************************************** 
   	
-programme : (liste_procedures)* (liste_instructions)+ ;
+programme : (liste_procedures)? (liste_instructions)+ ;
 
 liste_instructions :  (instruction)+ ;
 
@@ -35,6 +35,7 @@ instruction:
   	| 'BC' # bc
   	| 'VE' # ve
   	| 'AV' expr_arithmetique # av
+  	| 'RC' expr_arithmetique # rc
   	| 'TD' expr_arithmetique # td
 	| 'TG' expr_arithmetique # tg
 	| 'RE' expr_arithmetique # re
@@ -43,44 +44,41 @@ instruction:
   	| expr_conditionnelle # expr_cond
   	| expr_affectation # expr_affect
   	| 'LOCALE' ID # affect_locale
-  	| appel_procedure # appel_procedure
+  	| ID liste_appel # appel_proc
+  	| 'RET' expr_arithmetique # ret
   	;
 
 //Déclaration d'une procédure
 liste_procedures : 
-	(procedure)+
+	(procedure)*
 	;
 
 procedure : 
 	'POUR' ID liste_params liste_instructions 'FIN'
 	;
-	
-//Appel d'une procédure
-appel_procedure: 
-	ID liste_appel
-	;
 
+liste_appel: 
+	(expr_arithmetique)*
+	;
+	
 liste_params: 
 	(':' ID)* 
 	;
-
-liste_appel: 
-	expr_arithmetique *
-	;
 	
 expr_arithmetique :
-	expr_arithmetique MUL expr_arithmetique # mul
-	| expr_arithmetique DIV expr_arithmetique # div  
-	| expr_arithmetique PLUS expr_arithmetique # plus 
-	| expr_arithmetique MINUS expr_arithmetique # minus 
+	expr_arithmetique '*' expr_arithmetique # mul
+	| expr_arithmetique '/' expr_arithmetique # div  
+	| expr_arithmetique '+' expr_arithmetique # plus 
+	| expr_arithmetique '-' expr_arithmetique # minus 
   	| 'HASARD' expr_arithmetique # hasard
   	| INT # int
   	| '-' INT # neg
+  	| '-' ':' ID # neg_id
   	| ':' ID # id
   	| '(' expr_arithmetique ')' # parent
   	| 'LOOP' # loop
 	;
-		
+
 expr_booleene:
 	expr_booleene 'ET' expr_booleene # bool_et
 	| expr_booleene 'OU' expr_booleene # bool_ou

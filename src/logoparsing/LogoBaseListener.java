@@ -8,6 +8,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
 public class LogoBaseListener implements LogoListener {
+	@Override public void enterRet(LogoParser.RetContext ctx) { }
+	@Override public void exitRet(LogoParser.RetContext ctx) { }
+
 	@Override public void enterBool_et(LogoParser.Bool_etContext ctx) { }
 	@Override public void exitBool_et(LogoParser.Bool_etContext ctx) { }
 
@@ -43,6 +46,9 @@ public class LogoBaseListener implements LogoListener {
 
 	@Override public void enterListe_appel(LogoParser.Liste_appelContext ctx) { }
 	@Override public void exitListe_appel(LogoParser.Liste_appelContext ctx) { }
+
+	@Override public void enterRc(LogoParser.RcContext ctx) { }
+	@Override public void exitRc(LogoParser.RcContext ctx) { }
 
 	@Override public void enterListe_instructions(LogoParser.Liste_instructionsContext ctx) { }
 	@Override public void exitListe_instructions(LogoParser.Liste_instructionsContext ctx) { }
@@ -83,6 +89,9 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterMinus(LogoParser.MinusContext ctx) { }
 	@Override public void exitMinus(LogoParser.MinusContext ctx) { }
 
+	@Override public void enterAppel_proc(LogoParser.Appel_procContext ctx) { }
+	@Override public void exitAppel_proc(LogoParser.Appel_procContext ctx) { }
+
 	@Override public void enterInt(LogoParser.IntContext ctx) { }
 	@Override public void exitInt(LogoParser.IntContext ctx) { }
 
@@ -92,14 +101,14 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterParent(LogoParser.ParentContext ctx) { }
 	@Override public void exitParent(LogoParser.ParentContext ctx) { }
 
+	@Override public void enterNeg_id(LogoParser.Neg_idContext ctx) { }
+	@Override public void exitNeg_id(LogoParser.Neg_idContext ctx) { }
+
 	@Override public void enterBool_ou(LogoParser.Bool_ouContext ctx) { }
 	@Override public void exitBool_ou(LogoParser.Bool_ouContext ctx) { }
 
 	@Override public void enterMul(LogoParser.MulContext ctx) { }
 	@Override public void exitMul(LogoParser.MulContext ctx) { }
-
-	@Override public void enterAppel_procedure(LogoParser.Appel_procedureContext ctx) { }
-	@Override public void exitAppel_procedure(LogoParser.Appel_procedureContext ctx) { }
 
 	@Override public void enterAv(LogoParser.AvContext ctx) { }
 	@Override public void exitAv(LogoParser.AvContext ctx) { }

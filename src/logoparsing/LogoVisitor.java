@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.Token;
 
 public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
+	T visitRet(LogoParser.RetContext ctx);
+
 	T visitBool_et(LogoParser.Bool_etContext ctx);
 
 	T visitListe_procedures(LogoParser.Liste_proceduresContext ctx);
@@ -28,6 +30,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTanque(LogoParser.TanqueContext ctx);
 
 	T visitListe_appel(LogoParser.Liste_appelContext ctx);
+
+	T visitRc(LogoParser.RcContext ctx);
 
 	T visitListe_instructions(LogoParser.Liste_instructionsContext ctx);
 
@@ -55,17 +59,19 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitMinus(LogoParser.MinusContext ctx);
 
+	T visitAppel_proc(LogoParser.Appel_procContext ctx);
+
 	T visitInt(LogoParser.IntContext ctx);
 
 	T visitRepete(LogoParser.RepeteContext ctx);
 
 	T visitParent(LogoParser.ParentContext ctx);
 
+	T visitNeg_id(LogoParser.Neg_idContext ctx);
+
 	T visitBool_ou(LogoParser.Bool_ouContext ctx);
 
 	T visitMul(LogoParser.MulContext ctx);
-
-	T visitAppel_procedure(LogoParser.Appel_procedureContext ctx);
 
 	T visitAv(LogoParser.AvContext ctx);
 

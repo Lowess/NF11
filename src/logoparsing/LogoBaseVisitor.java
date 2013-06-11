@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements LogoVisitor<T> {
+	@Override public T visitRet(LogoParser.RetContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitBool_et(LogoParser.Bool_etContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitListe_procedures(LogoParser.Liste_proceduresContext ctx) { return visitChildren(ctx); }
@@ -29,6 +31,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 	@Override public T visitTanque(LogoParser.TanqueContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitListe_appel(LogoParser.Liste_appelContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitRc(LogoParser.RcContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitListe_instructions(LogoParser.Liste_instructionsContext ctx) { return visitChildren(ctx); }
 
@@ -56,17 +60,19 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitMinus(LogoParser.MinusContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitAppel_proc(LogoParser.Appel_procContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitInt(LogoParser.IntContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitRepete(LogoParser.RepeteContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitParent(LogoParser.ParentContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitNeg_id(LogoParser.Neg_idContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitBool_ou(LogoParser.Bool_ouContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitMul(LogoParser.MulContext ctx) { return visitChildren(ctx); }
-
-	@Override public T visitAppel_procedure(LogoParser.Appel_procedureContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitAv(LogoParser.AvContext ctx) { return visitChildren(ctx); }
 

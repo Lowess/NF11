@@ -26,10 +26,6 @@ public class Procedure {
 		return arite;
 	}
 
-	public ArrayList<String> getParams() {
-		return params;
-	}
-
 	public ParseTree getCorps() {
 		return corps;
 	}
@@ -37,8 +33,13 @@ public class Procedure {
 	public String getId() {
 		return nom + "_" + arite;
 	}
-	
+
+	public ArrayList<String> getParams() {
+		return params;
+	}
+
 	public static String toId(String nom, int arite){
 		return nom + "_" + arite;
 	}
+
 }
