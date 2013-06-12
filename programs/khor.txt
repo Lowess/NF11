@@ -1,0 +1,26 @@
+POUR Khor :L :N
+SI :L < :N
+[AV :L ]
+[	Khor (:L / 3 :N) TG 60
+	Khor (:L / 3 :N) TD 120
+	Khor (:L / 3 :N) TG 60
+	Khor (:L / 3 :N) ]
+FIN
+
+POUR traceKhor :F
+LOCALE n
+DONNE "n 3
+REPETE 3 [ 
+	Khor (90 * :n :F) 
+	TD 120
+  
+	Khor (90 * :n :F) 
+	TD 120
+	Khor (90 * :n :F) 
+	TD 120
+]
+FIN
+VE
+FPOS 200 300
+
+traceKhor(5*3)

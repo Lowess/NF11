@@ -62,7 +62,7 @@ public class Operateur {
 					break;
 				case IDENTIFICATEUR:
 					try {
-						val = this.appliqueOperateur(a.getChiffre(), TableDesSymboles.getInstance().getSymbole(b.getIdentificateur()).getChiffre());
+						val = this.appliqueOperateur(a.getChiffre(), ContextManager.getInstance().getTableDesSymboles().getSymbole(b.getIdentificateur()).getChiffre());
 					} catch (Exception e) {
 					}
 					break;

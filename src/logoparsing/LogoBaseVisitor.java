@@ -30,6 +30,8 @@ public class LogoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements L
 
 	@Override public T visitTanque(LogoParser.TanqueContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitAppel_fonc(LogoParser.Appel_foncContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitListe_appel(LogoParser.Liste_appelContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitRc(LogoParser.RcContext ctx) { return visitChildren(ctx); }

@@ -28,11 +28,11 @@ public class LogoLexer extends Lexer {
 
 	public static final String[] tokenNames = {
 		"<INVALID>",
-		"'LOOP'", "'DONNE'", "'POUR'", "']'", "'-'", "'*'", "'['", "'('", "':'", 
+		"'LOOP'", "'DONNE'", "'POUR'", "']'", "'-'", "'*'", "'['", "':'", "'('", 
 		"'LC'", "'RC'", "'false'", "'RE'", "'SI'", "'HASARD'", "'REPETE'", "'VE'", 
 		"'TG'", "'FIN'", "'FPOS'", "'true'", "'\"'", "'RET'", "'LOCALE'", "'ET'", 
 		"')'", "'+'", "'BC'", "'TANTQUE'", "'FCC'", "'AV'", "'TD'", "'OU'", "'/'", 
-		"INT", "WS", "ID", "'='", "OP_INT"
+		"INT", "WS", "ID", "OP_BOOL", "OP_INT"
 	};
 	public static final String[] ruleNames = {
 		"T__33", "T__32", "T__31", "T__30", "T__29", "T__28", "T__27", "T__26", 
@@ -116,7 +116,7 @@ public class LogoLexer extends Lexer {
 		"\0RS\5P\0\0S\2\1\0\0\0TU\5D\0\0UV\5O\0\0VW\5N\0\0WX\5N\0\0XY\5E\0\0Y\4"+
 		"\1\0\0\0Z[\5P\0\0[\\\5O\0\0\\]\5U\0\0]^\5R\0\0^\6\1\0\0\0_`\5]\0\0`\b"+
 		"\1\0\0\0ab\5-\0\0b\n\1\0\0\0cd\5*\0\0d\f\1\0\0\0ef\5[\0\0f\16\1\0\0\0"+
-		"gh\5(\0\0h\20\1\0\0\0ij\5:\0\0j\22\1\0\0\0kl\5L\0\0lm\5C\0\0m\24\1\0\0"+
+		"gh\5:\0\0h\20\1\0\0\0ij\5(\0\0j\22\1\0\0\0kl\5L\0\0lm\5C\0\0m\24\1\0\0"+
 		"\0no\5R\0\0op\5C\0\0p\26\1\0\0\0qr\5f\0\0rs\5a\0\0st\5l\0\0tu\5s\0\0u"+
 		"v\5e\0\0v\30\1\0\0\0wx\5R\0\0xy\5E\0\0y\32\1\0\0\0z{\5S\0\0{|\5I\0\0|"+
 		"\34\1\0\0\0}~\5H\0\0~\177\5A\0\0\177\u0080\5S\0\0\u0080\u0081\5A\0\0\u0081"+

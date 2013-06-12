@@ -27,37 +27,39 @@ public class TableDesSymboles {
 	 * Map qui contient les variables locales
 	 */
 	private HashMap<String, Noeud> locales;
-	/**
-	 * Instance de Table des symboles (DP Singleton)
-	 */
-	private static TableDesSymboles instance;
-	
-	/**
-	 * Récupére l'instance de Table des symboles.
-	 * Si elle n'existe pas, elle est crée, sinon
-	 * elle est retournée
-	 * @return La Table des symboles
-	 */
-	public static TableDesSymboles getInstance(){
-		if(instance == null){
-			instance = new TableDesSymboles();
-		}
-		return instance;
-	}
-	
-	/**
-	 * Détruit la Table des symboles si elle existe
-	 */
-	public static void libereInstance(){
-		if(instance != null){
-			 instance = null;
-		}
-	}
+//	/**
+//	 * Instance de Table des symboles (DP Singleton)
+//	 */
+	//private static TableDesSymboles instance;
+//	
+//	/**
+//	 * Récupére l'instance de Table des symboles.
+//	 * Si elle n'existe pas, elle est crée, sinon
+//	 * elle est retournée
+//	 * @return La Table des symboles
+//	 */
+//	//Méthode amie
+//	static TableDesSymboles getInstance(){
+//		if(instance == null){
+//			instance = new TableDesSymboles();
+//		}
+//		return instance;
+//	}
+//	
+//	/**
+//	 * Détruit la Table des symboles si elle existe
+//	 */
+//	//Méthode amie
+//	static void libereInstance(){
+//		if(instance != null){
+//			 instance = null;
+//		}
+//	}
 	
 	/**
 	 * Constructeur de la Table des symboles
 	 */
-	private TableDesSymboles(){
+	TableDesSymboles(){
 		//Crée la table des symboles
 		symboles = new HashMap<String, Noeud>();
 		
@@ -112,17 +114,9 @@ public class TableDesSymboles {
 				Log.getInstance().getLogZone().append("Variable locale " + id + " créée\r\n");
 				locales.put(id, n);
 			} else {
-				//Si globale
-				//Cas particulier du LOOP à mettre en LOCALE
-				if(id == "LOOP"){
-					System.out.print("TableDesSymboles création de variables LOCALES: ");
-					Log.getInstance().getLogZone().append("Variable locale " + id + " créée\r\n");
-					locales.put(id, n);
-				} else {
 					System.out.print("TableDesSymboles création de variables GLOBALES: ");
 					Log.getInstance().getLogZone().append("Variable globale " + id + " créée\r\n");
 					symboles.put(id, n);
-				}
 			} 		
 			System.out.println("L'identifiant " + id + " vient d'être ajouté à la table des symboles");
 		}
@@ -163,9 +157,7 @@ public class TableDesSymboles {
 		int l = context.size() - 1;
 		boolean flag = false;
 		while(l >= 0  && flag == false){
-			System.out.println("ICI " + l);
 			if(context.get(l).containsKey(id)){
-				System.out.println(context.get(l));
 				n = context.get(l).get(id);
 				flag = true;
 			}

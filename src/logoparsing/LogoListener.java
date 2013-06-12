@@ -41,6 +41,9 @@ public interface LogoListener extends ParseTreeListener {
 	void enterTanque(LogoParser.TanqueContext ctx);
 	void exitTanque(LogoParser.TanqueContext ctx);
 
+	void enterAppel_fonc(LogoParser.Appel_foncContext ctx);
+	void exitAppel_fonc(LogoParser.Appel_foncContext ctx);
+
 	void enterListe_appel(LogoParser.Liste_appelContext ctx);
 	void exitListe_appel(LogoParser.Liste_appelContext ctx);
 

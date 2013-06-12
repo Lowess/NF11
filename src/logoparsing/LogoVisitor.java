@@ -29,6 +29,8 @@ public interface LogoVisitor<T> extends ParseTreeVisitor<T> {
 
 	T visitTanque(LogoParser.TanqueContext ctx);
 
+	T visitAppel_fonc(LogoParser.Appel_foncContext ctx);
+
 	T visitListe_appel(LogoParser.Liste_appelContext ctx);
 
 	T visitRc(LogoParser.RcContext ctx);

@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 
+import tools.ContextManager;
 import tools.Noeud;
 import tools.Operateur;
 import tools.Procedure;
@@ -19,6 +20,7 @@ import logogui.Traceur;
 import logoparsing.LogoParser.Affect_id_boolContext;
 import logoparsing.LogoParser.Affect_id_intContext;
 import logoparsing.LogoParser.Affect_localeContext;
+import logoparsing.LogoParser.Appel_foncContext;
 import logoparsing.LogoParser.Appel_procContext;
 import logoparsing.LogoParser.AvContext;
 import logoparsing.LogoParser.BcContext;
@@ -31,6 +33,8 @@ import logoparsing.LogoParser.Bool_parentContext;
 import logoparsing.LogoParser.Bool_vraiContext;
 import logoparsing.LogoParser.DivContext;
 import logoparsing.LogoParser.Expr_affectContext;
+import logoparsing.LogoParser.Expr_arithmetiqueContext;
+import logoparsing.LogoParser.Expr_booleeneContext;
 import logoparsing.LogoParser.Expr_condContext;
 import logoparsing.LogoParser.FccContext;
 import logoparsing.LogoParser.FposContext;
@@ -81,125 +85,288 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	 * Commandes Logo
 	 ************************************************************************************************************** 
 	 */
+	
 	@Override
 	public Integer visitAv(AvContext ctx) {
-		Integer code = visitChildren(ctx);
-		Integer ret = 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
 		switch (code){
-			case 0:	
+			case 0:
 				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
 				traceur.avance(getAttValue(ctx.expr_arithmetique()).getChiffre());
 				ret = 0;
-			case 1:
-				Log.getInstance().getLogZone().append("Erreur lors de la compilation du code...\n");
-				ret = 1;
-			default:
 				break;
+			default:
+				
+				ret = 1;
 		}
 		return ret;
 	}
 
 	@Override
 	public Integer visitRc(RcContext ctx) {
-		Integer code = visitChildren(ctx);
-		Integer ret = 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
 		switch (code){
 			case 0:	
 				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
 				traceur.avance(-getAttValue(ctx.expr_arithmetique()).getChiffre());
 				ret = 0;
-			case 1:
-				Log.getInstance().getLogZone().append("Erreur lors de la compilation du code...\n");
-				ret = 1;
-			default:
 				break;
+			default:
+				
+				ret = 1;
 		}
 		return ret;
 	}
 
 	@Override
 	public Integer visitTd(TdContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
-		traceur.td(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.td(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
+
 	@Override
 	public Integer visitTg(TgContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
-		traceur.tg(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.tg(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
+
 	@Override
 	public Integer visitLc(LcContext ctx) {
-		visitChildren(ctx);
-		traceur.lc();
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				traceur.lc();
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;	
 	}
 	@Override
 	public Integer visitBc(BcContext ctx) {
-		visitChildren(ctx);
-		traceur.bc();
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				traceur.bc();
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 	@Override
 	public Integer visitVe(VeContext ctx) {
-		visitChildren(ctx);
-		traceur.ve();
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				traceur.ve();
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;			
+		}
+		return ret;
 	}
 	
 	@Override
 	public Integer visitRe(ReContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
-		traceur.re(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.re(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 	@Override
 	public Integer visitFpos(FposContext ctx) {
-		visitChildren(ctx);
-
-		setAttValue(ctx.expr_arithmetique(0), getAttValue(ctx.expr_arithmetique(0)));
-		setAttValue(ctx.expr_arithmetique(1), getAttValue(ctx.expr_arithmetique(1)));
-		
-		traceur.fpos(getAttValue(ctx.expr_arithmetique().get(0)).getChiffre(), getAttValue(ctx.expr_arithmetique().get(1)).getChiffre());
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(0), getAttValue(ctx.expr_arithmetique(0)));
+				setAttValue(ctx.expr_arithmetique(1), getAttValue(ctx.expr_arithmetique(1)));
+				traceur.fpos(getAttValue(ctx.expr_arithmetique().get(0)).getChiffre(), getAttValue(ctx.expr_arithmetique().get(1)).getChiffre());
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;		
 	}
 
 	@Override
 	public Integer visitFcc(FccContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
-		traceur.fcc(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx.expr_arithmetique(), getAttValue(ctx.expr_arithmetique()));
+				traceur.fcc(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitExpr_cond(Expr_condContext ctx){
-		visitChildren(ctx);
-		setAttValue(ctx, getAttValue(ctx.expr_conditionnelle()));
-		return 0;	
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx, getAttValue(ctx.expr_conditionnelle()));
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitExpr_affect(Expr_affectContext ctx){
-		visitChildren(ctx);
-		setAttValue(ctx, getAttValue(ctx.expr_affectation()));
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx, getAttValue(ctx.expr_affectation()));
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitAffect_locale(Affect_localeContext ctx){
-		visitChildren(ctx);
-		//Récupére l'id
-		String id = ctx.ID().getText();
-		//Met à jour la table des symboles
-		TableDesSymboles.getInstance().ajouterSymbole(id, null);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				//Récupére l'id
+				String id = ctx.ID().getText();
+				//Met à jour la table des symboles
+				ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(id, null);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 	/*
@@ -210,111 +377,267 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitMul(MulContext ctx) {
-		visitChildren(ctx);
-		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() * getAttValue(ctx.expr_arithmetique(1)).getChiffre());
-		setAttValue(ctx, n);
-		return 0;
-	}
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() * getAttValue(ctx.expr_arithmetique(1)).getChiffre());
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
+	}		
 
 	@Override
 	public Integer visitDiv(DivContext ctx) {
-		visitChildren(ctx); 
-		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() / getAttValue(ctx.expr_arithmetique(1)).getChiffre());
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() / getAttValue(ctx.expr_arithmetique(1)).getChiffre());
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 	@Override
 	public Integer visitPlus(PlusContext ctx) {
-		visitChildren(ctx);
-		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() + getAttValue(ctx.expr_arithmetique(1)).getChiffre());
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() + getAttValue(ctx.expr_arithmetique(1)).getChiffre());
+				setAttValue(ctx, n);
+				ret = 0;				
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 
 	@Override
 	public Integer visitMinus(MinusContext ctx) {
-		visitChildren(ctx);
-		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() - getAttValue(ctx.expr_arithmetique(1)).getChiffre());
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique(0)).getChiffre() - getAttValue(ctx.expr_arithmetique(1)).getChiffre());
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitHasard(HasardContext ctx) {
-		visitChildren(ctx);
-		Noeud n = new Noeud((int)(Math.random() * (getAttValue(ctx.expr_arithmetique()).getChiffre())));
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud((int)(Math.random() * (getAttValue(ctx.expr_arithmetique()).getChiffre())));
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitInt(IntContext ctx) {
-		visitChildren(ctx);
-		String op1Text = ctx.INT().getText();
-		Noeud n = new Noeud(Integer.valueOf(op1Text));
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:
+				String op1Text = ctx.INT().getText();
+				Noeud n = new Noeud(Integer.valueOf(op1Text));
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitNeg(NegContext ctx) {
-		visitChildren(ctx);
-		String op1Text = ctx.INT().getText();
-		Noeud n = new Noeud(-Integer.valueOf(op1Text));
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				String op1Text = ctx.INT().getText();
+				Noeud n = new Noeud(-Integer.valueOf(op1Text));
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitNeg_id(Neg_idContext ctx) {
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
 		try{
-			visitChildren(ctx);
-			String op1Text = ctx.ID().getText();
-			Noeud n = new Noeud(-TableDesSymboles.getInstance().getSymbole(op1Text).getChiffre());
-			setAttValue(ctx, n);
+			switch (code){
+				case 0:	
+					String op1Text = ctx.ID().getText();
+					Noeud n = new Noeud(-ContextManager.getInstance().getTableDesSymboles().getSymbole(op1Text).getChiffre());
+					setAttValue(ctx, n);
+					ret = 0;
+					break;
+				default:
+					
+					ret = 1;
+			}
 		} catch (Exception e) { 
 			System.out.println(e.toString());
 			Log.getInstance().getLogZone().append(e.toString());
-			return 1;
+			ret = 1;
 		}
-		return 0;
+		return ret;
 	}
 
 	@Override
 	public Integer visitId(IdContext ctx) {
-		try{
-			visitChildren(ctx);
-			String op1Text = ctx.ID().getText();
-			Noeud n = new Noeud(TableDesSymboles.getInstance().getSymbole(op1Text).getChiffre());
-			setAttValue(ctx, n);
-		} catch (Exception e) { 
-			System.out.println(e.toString());
-			Log.getInstance().getLogZone().append(e.toString());
-			return 1;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:
+				try{
+					String op1Text = ctx.ID().getText();
+					Noeud n = new Noeud(ContextManager.getInstance().getTableDesSymboles().getSymbole(op1Text).getChiffre());
+					setAttValue(ctx, n);
+					ret = 0;
+				} catch (Exception e) { 
+					System.out.println(e.toString());
+					Log.getInstance().getLogZone().append(e.toString());
+					setAttValue(ctx, new Noeud(0));
+					ret = 1;
+				}
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitParent(ParentContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx, getAttValue(ctx.expr_arithmetique()));
-		return 0;
+		Integer code = new Integer(0);
+		try{
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx, getAttValue(ctx.expr_arithmetique()));
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;		
 	}
 
 	@Override
 	public Integer visitLoop(LoopContext ctx) {
-		visitChildren(ctx);
-		try{
-			Noeud n = TableDesSymboles.getInstance().getSymbole("LOOP");
-			setAttValue(ctx, n);
-		} catch (Exception e) { 
-			System.out.println("Exception reçue: LOOP est utilisé en dehors de son contexte de boucle");
-			return 1;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:
+				try{
+					Noeud n = ContextManager.getInstance().getTableDesSymboles().getSymbole("LOOP");
+					setAttValue(ctx, n);
+					ret = 0;
+				} catch (Exception e) { 
+					System.out.println("Exception reçue: LOOP est utilisé en dehors de son contexte de boucle");
+					ret = 1;
+				}
+				break;
+			default:
+				
+				ret = 1;
+		}				
+		return ret;
 	}
 
 	@Override
@@ -341,54 +664,154 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitAppel_proc(Appel_procContext ctx) {
-		visitChildren(ctx);
-		
-		String nomFonction = ctx.ID().getText();
-		
-		int arite = 0;
-		ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
-		//Calcul de l'arité et mémorisation de la valeur des paramètres
-		for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
-			if(!ctx.getChild(i).getText().matches(":")){
-				arite++;
-				System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
-				valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
-			}
-		}
-		//Récupération de la fonction pour l'exécuter si elle existe
+		Integer code;
 		try {
-			Procedure f = TableDesProcedures.getInstance().getFonction(nomFonction, arite);
-			//Création du contexte d'appel
-			TableDesSymboles.getInstance().nouveauContext();
-			
-			//Création des paramètres de la fonction en table des symboles
-			ArrayList<String> params = f.getParams();
-			for(int i = 0; i < f.getArite(); i++){
-					System.out.println(params.get(i) + "<-" + valeurs.get(i));
-					TableDesSymboles.getInstance().ajouterSymbole(params.get(i), valeurs.get(i));
-			}	
-			
-			//Execution de la fonction
-			visit(f.getCorps());
-			
-			//Restitution de l'ancien contexte
-			TableDesSymboles.getInstance().restaurerContext();
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			Log.getInstance().getLogZone().append(e.toString());
-			return 1;
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:		
+				String nomFonction = ctx.ID().getText();
+				
+				int arite = 0;
+				ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
+				//Calcul de l'arité et mémorisation de la valeur des paramètres
+				for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
+					if(!ctx.getChild(i).getText().matches(":")){
+						arite++;
+						System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
+						valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
+					}
+				}
+				//Récupération de la fonction pour l'exécuter si elle existe
+				try {
+					Procedure f = TableDesProcedures.getInstance().getFonction(nomFonction, arite);
+					//Création du contexte d'appel
+					ContextManager.getInstance().nouveauContextFonctionnel();
+					ContextManager.getInstance().getTableDesSymboles().nouveauContext();
+					
+					//Création des paramètres de la fonction en table des symboles
+					ArrayList<String> params = f.getParams();
+					for(int i = 0; i < f.getArite(); i++){
+						//Permet de créer des variables locales
+						ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(params.get(i), null);
+						//Permet de créer d'affecter les variables locales
+						ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(params.get(i), valeurs.get(i));
+					}	
+					
+					//Execution de la fonction
+					Integer code2 = new Integer(visit(f.getCorps()));
+					
+					//Restitution de l'ancien contexte
+					ContextManager.getInstance().getTableDesSymboles().restaurerContext();
+					ContextManager.getInstance().restaurerContextFonctionnel();
+					
+					ret = 0;
+					
+				} catch (Exception e) {
+					System.out.println(e.toString());
+					Log.getInstance().getLogZone().append(e.toString());
+					setAttValue(ctx, new Noeud(0));
+					ret = 0;
+				}
+				break;	
+			default:
+				ret = 1;
+		}			
+		return ret;	
 	}
 
 	@Override
 	public Integer visitRet(RetContext ctx) {
-		visitChildren(ctx);
-		
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:
+				setAttValue(ctx, getAttValue(ctx.expr_arithmetique()));
+				ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("RET", null);
+				ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("RET", getAttValue(ctx.expr_arithmetique()));
+				ret = 0;
+			default:
+				
+				ret = 1;
+		}			
+		return ret;
 	}
+
+	public Integer visitAppel_fonc(Appel_foncContext ctx) {
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:		
+				String nomFonction = ctx.ID().getText();
+				
+				int arite = 0;
+				ArrayList<Noeud> valeurs = new ArrayList<Noeud>();
+				//Calcul de l'arité et mémorisation de la valeur des paramètres
+				for(int i = 0; i < ctx.liste_appel().getChildCount(); i++){
+					if(!ctx.getChild(i).getText().matches(":")){
+						arite++;
+						System.out.println("Value " + getAttValue(ctx.liste_appel().getChild(i)));
+						valeurs.add(getAttValue(ctx.liste_appel().getChild(i)));	
+					}
+				}
+				//Récupération de la fonction pour l'exécuter si elle existe
+				try {
+					Procedure f = TableDesProcedures.getInstance().getFonction(nomFonction, arite);
+					//Création du contexte d'appel
+					ContextManager.getInstance().nouveauContextFonctionnel();					
+					ContextManager.getInstance().getTableDesSymboles().nouveauContext();
+					
+					
+					//Création des paramètres de la fonction en table des symboles
+					ArrayList<String> params = f.getParams();
+					for(int i = 0; i < f.getArite(); i++){
+						//Permet de créer des variables locales
+						ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(params.get(i), null);
+						//Permet de créer d'affecter les variables locales
+						ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(params.get(i), valeurs.get(i));
+					}	
+					
+					//Execution de la fonction
+					Integer code2 = new Integer(visit(f.getCorps()));
+				
+					//Marquage du noeud avec la variable RET
+					setAttValue(ctx, ContextManager.getInstance().getTableDesSymboles().getSymbole("RET"));
+					
+					//Restitution de l'ancien contexte
+					ContextManager.getInstance().getTableDesSymboles().restaurerContext();
+					ContextManager.getInstance().restaurerContextFonctionnel();
+				
+					ret = 0;
+					
+				} catch (Exception e) {
+					System.out.println(e.toString());
+					Log.getInstance().getLogZone().append(e.toString());
+					setAttValue(ctx, new Noeud(0));
+					ret = 0;
+				}
+				break;	
+			default:
+				
+				ret = 1;
+		}			
+		return ret;	
+	}
+
 	
+
 	/* 
 	 ***************************************************************************************************************
 	 * Expressions Booléennes
@@ -397,88 +820,208 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitBool_parent(Bool_parentContext ctx) {
-		visitChildren(ctx);
-		setAttValue(ctx, getAttValue(ctx.expr_booleene()));
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				setAttValue(ctx, getAttValue(ctx.expr_booleene()));
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;			
 	}
 
 	@Override
 	public Integer visitBool_et(Bool_etContext ctx) {
-		visitChildren(ctx);
-		boolean val = (getAttValue(ctx.expr_booleene(0)).getBooleen() && getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false);
-		Noeud n = new Noeud(val);
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				boolean val = (getAttValue(ctx.expr_booleene(0)).getBooleen() && getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false);
+				Noeud n = new Noeud(val);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	} 
 
 	@Override
 	public Integer visitBool_ou(Bool_ouContext ctx) {
-		visitChildren(ctx);
-		boolean val = ((getAttValue(ctx.expr_booleene(0)).getBooleen()) || (getAttValue(ctx.expr_booleene(1)).getBooleen())) ? true : false;
-		Noeud n = new Noeud(val);
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				boolean val = ((getAttValue(ctx.expr_booleene(0)).getBooleen()) || (getAttValue(ctx.expr_booleene(1)).getBooleen())) ? true : false;
+				Noeud n = new Noeud(val);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
-
+	
 	@Override
 	public Integer visitBool_op_bool(Bool_op_boolContext ctx) {
-		visitChildren(ctx);
-		Operateur op = new Operateur(ctx.OP_BOOL().getText());
-		boolean val = false;
-		switch (op.getOpCode()){
-		case EGAL:
-			val = getAttValue(ctx.expr_booleene(0)).getBooleen() == getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false;
-			break;
-		case DIFF:
-			val = getAttValue(ctx.expr_booleene(0)).getBooleen() != getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false;
-			break;
-		default:
-			break;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		Noeud n = new Noeud(val);
-		setAttValue(ctx, n);
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Operateur op = new Operateur(ctx.OP_BOOL().getText());
+				boolean val = false;
+				switch (op.getOpCode()){
+					case EGAL:
+						try{
+							val = getAttValue(ctx.expr_booleene(0)).getBooleen() == getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false;
+						} catch (Exception e){
+							try{
+								val = getAttValue(ctx.expr_booleene(0)).getChiffre() == getAttValue(ctx.expr_booleene(1)).getChiffre() ? true : false;	
+							} catch (Exception e2){
+								Log.getInstance().getLogZone().append("L'opération de '=' est impossible (types incompatibles)\n");
+							}
+						}
+						break;
+					case DIFF:
+						//N'exista pas en LOGO
+						//val = getAttValue(ctx.expr_booleene(0)).getBooleen() != getAttValue(ctx.expr_booleene(1)).getBooleen() ? true : false;
+						break;
+					default:
+						break;
+					}
+				Noeud n = new Noeud(val);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitBool_op_arithm(Bool_op_arithmContext ctx) {
-		visitChildren(ctx);
-		Operateur op = new Operateur(ctx.OP_INT().toString());
-		boolean val = op.appliqueOperateur(getAttValue(ctx.expr_arithmetique(0)), getAttValue(ctx.expr_arithmetique(1)));
-		Noeud n = new Noeud(val);
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Operateur op = new Operateur(ctx.OP_INT().toString());
+				boolean val = op.appliqueOperateur(getAttValue(ctx.expr_arithmetique(0)), getAttValue(ctx.expr_arithmetique(1)));
+				Noeud n = new Noeud(val);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitBool_vrai(Bool_vraiContext ctx){
-		visitChildren(ctx);
-		Noeud n = new Noeud(true);
-		setAttValue(ctx, n);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(true);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitBool_faux(Bool_fauxContext ctx){
-		visitChildren(ctx);
-		Noeud n = new Noeud(false);
-		setAttValue(ctx, n);
-		return 0;	
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(false);
+				setAttValue(ctx, n);
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitId_bool(Id_boolContext ctx) {
-		try{
-			visitChildren(ctx);
-			String op1Text = ctx.ID().getText();
-			Noeud n = new Noeud(TableDesSymboles.getInstance().getSymbole(op1Text).getChiffre());
-			setAttValue(ctx, n);
-		} catch (Exception e) { 
-			System.out.println(e.toString());
-			Log.getInstance().getLogZone().append(e.toString());
-			return 1;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				try{
+					String op1Text = ctx.ID().getText();
+					Noeud n = new Noeud(ContextManager.getInstance().getTableDesSymboles().getSymbole(op1Text).getChiffre());
+					setAttValue(ctx, n);
+					ret = 0;
+				} catch (Exception e) { 
+					System.out.println(e.toString());
+					Log.getInstance().getLogZone().append(e.toString());
+					ret = 0;
+				}
+				break;
+			default:
+				ret = 1;
+		}
+		return ret;
 	}
 
 	/*
@@ -490,59 +1033,136 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 	@Override
 	public Integer visitSi_sinon(Si_sinonContext ctx){
 		//On ne visite que l'expression booléenne
-		visit(ctx.expr_booleene());
-		Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
-	
-		//Mémorise le contexte précédent et en offre un nouveau
-		TableDesSymboles.getInstance().nouveauContext();
-		if (n.getBooleen()){
-			//Si la condition est vérifiée on execute le premier bloc
-			visit(ctx.bloc(0));
-			setAttValue(ctx, getAttValue(ctx.bloc(0)));	
-		} else {
-			//Sinon on explore l'autre bloc si il existe
-			if(ctx.bloc().size() == 2){
-				visit(ctx.bloc(1));
-				setAttValue(ctx, getAttValue(ctx.bloc(1)));	
-			}
+		Integer code;
+		try {
+			code = new Integer(visit(ctx.expr_booleene()));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		TableDesSymboles.getInstance().restaurerContext();
-		return 0;	
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
+				//Mémorise le contexte précédent et en offre un nouveau
+				ContextManager.getInstance().getTableDesSymboles().nouveauContext();
+				if (n.getBooleen()){
+					//Si la condition est vérifiée on execute le premier bloc  	
+					Integer code2;
+					try {
+						code2 = new Integer(visit(ctx.bloc(0)));
+					} catch (NullPointerException e){
+						code2 = new Integer(0);
+					}
+					
+					switch (code2){
+						case 0:	
+							setAttValue(ctx, getAttValue(ctx.bloc(0)));
+							ret = 0;
+							break;
+						default:
+							
+							ret = 1;
+					}						
+				} else {
+					//Sinon on explore l'autre bloc si il existe
+					if(ctx.bloc().size() == 2){
+						Integer code2;
+						try {
+							code2 = new Integer(visit(ctx.bloc(1)));
+						} catch (NullPointerException e){
+							code2 = new Integer(0);
+						}
+						
+						switch (code2){
+							case 0:	
+								setAttValue(ctx, getAttValue(ctx.bloc(1)));	
+								ret = 0;
+								break;
+							default:
+								
+								ret = 1;
+						}
+					}
+				}
+				ContextManager.getInstance().getTableDesSymboles().restaurerContext();
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitRepete(RepeteContext ctx){
-		visit(ctx.expr_arithmetique());
-		int n = getAttValue((ctx.expr_arithmetique())).getChiffre();
-		//variable locale LOOP
-		int loop = 1;
-		//Mémorise le contexte précédent et en offre un nouveau
-		TableDesSymboles.getInstance().nouveauContext();
-		for (int i=0 ; i < n; i++){
-			TableDesSymboles.getInstance().ajouterSymbole("LOOP", new Noeud(loop));
-			//On itére n fois
-			visit(ctx.bloc());
-			setAttValue(ctx, getAttValue(ctx.bloc()));
-			loop++;
+		Integer code;
+		try {
+			code = new Integer(visit(ctx.expr_arithmetique()));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		TableDesSymboles.getInstance().supprimerSymbole("LOOP");
-		TableDesSymboles.getInstance().restaurerContext();
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				int n = getAttValue((ctx.expr_arithmetique())).getChiffre();
+				//variable locale LOOP
+				int loop = 1;
+				//Mémorise le contexte précédent et en offre un nouveau
+				ContextManager.getInstance().getTableDesSymboles().nouveauContext();
+				for (int i=0 ; (i < n) && (ret == 0); i++){
+					ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("LOOP", null);
+					ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("LOOP", new Noeud(loop));
+					//On itére n fois
+					visit(ctx.bloc());
+					setAttValue(ctx, getAttValue(ctx.bloc()));
+					loop++;
+					ret = 0;
+				}
+				ContextManager.getInstance().getTableDesSymboles().supprimerSymbole("LOOP");
+				ContextManager.getInstance().getTableDesSymboles().restaurerContext();
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 
 	@Override
 	public Integer visitTanque(TanqueContext ctx){
-		visit(ctx.expr_booleene());
-		boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
-		//Mémorise le contexte précédent et en offre un nouveau
-		TableDesSymboles.getInstance().nouveauContext();
-		while (b){
-			//On itére n fois
-			visit(ctx.bloc());
-			setAttValue(ctx, getAttValue(ctx.bloc()));	
+		Integer code;
+		try {
+			code = new Integer(visit(ctx.expr_booleene()));
+		} catch (NullPointerException e){
+			code = new Integer(0);
 		}
-		TableDesSymboles.getInstance().restaurerContext();
-		return 0;
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				Integer code2 = null;
+				boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
+				//Mémorise le contexte précédent et en offre un nouveau
+				ContextManager.getInstance().getTableDesSymboles().nouveauContext();
+				while (b && (ret == 0)){
+					//On itére n fois
+					code2 = new Integer(visit(ctx.bloc()));
+					switch (code2){
+						case 0:
+							setAttValue(ctx, getAttValue(ctx.bloc()));
+							ret = 0;
+							break;
+						default:
+							
+							ret = 1;	
+					}	
+				}
+				ContextManager.getInstance().getTableDesSymboles().restaurerContext();
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;
 	}
 	
 	/* 
@@ -553,32 +1173,63 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitAffect_id_int(Affect_id_intContext ctx){
-		visitChildren(ctx);
-		//Constitue la paire <id, symbole>
-		String id = ctx.ID().getText();
-		Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique()).getChiffre());
-		
-		//Met à jour la table des symboles
-		TableDesSymboles.getInstance().ajouterSymbole(id, n);
-		//Marque l'arbre
-		Noeud n2 = new Noeud(id,TypeNoeud.INTEGER);
-		setAttValue(ctx, n2);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				//Constitue la paire <id, symbole>
+				String id = ctx.ID().getText();
+				Noeud n = new Noeud(getAttValue(ctx.expr_arithmetique()).getChiffre());
+				
+				//Met à jour la table des symboles
+				ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(id, n);
+				
+				//Marque l'arbre
+				Noeud n2 = new Noeud(id,TypeNoeud.INTEGER);
+				setAttValue(ctx, n2);
+				
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;		
 	}
 
 	@Override
 	public Integer visitAffect_id_bool(Affect_id_boolContext ctx){
-		visitChildren(ctx);
-		//Constitue la paire <id, symbole>
-		String id = ctx.ID().getText();
-		Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
-		
-		//Met à jour la table des symboles
-		TableDesSymboles.getInstance().ajouterSymbole(id, n);
-	
-		//Marque l'arbre
-		Noeud n2 = new Noeud(id,TypeNoeud.BOOLEAN);
-		setAttValue(ctx, n2);
-		return 0;
+		Integer code;
+		try {
+			code = new Integer(visitChildren(ctx));
+		} catch (NullPointerException e){
+			code = new Integer(0);
+		}
+		Integer ret = new Integer(0);
+		switch (code){
+			case 0:	
+				//Constitue la paire <id, symbole>
+				String id = ctx.ID().getText();
+				Noeud n = new Noeud(getAttValue(ctx.expr_booleene()).getBooleen());
+				
+				//Met à jour la table des symboles
+				ContextManager.getInstance().getTableDesSymboles().ajouterSymbole(id, n);
+			
+				//Marque l'arbre
+				Noeud n2 = new Noeud(id,TypeNoeud.BOOLEAN);
+				setAttValue(ctx, n2);
+
+				ret = 0;
+				break;
+			default:
+				
+				ret = 1;
+		}
+		return ret;		
 	}
 }

@@ -44,6 +44,9 @@ public class LogoBaseListener implements LogoListener {
 	@Override public void enterTanque(LogoParser.TanqueContext ctx) { }
 	@Override public void exitTanque(LogoParser.TanqueContext ctx) { }
 
+	@Override public void enterAppel_fonc(LogoParser.Appel_foncContext ctx) { }
+	@Override public void exitAppel_fonc(LogoParser.Appel_foncContext ctx) { }
+
 	@Override public void enterListe_appel(LogoParser.Liste_appelContext ctx) { }
 	@Override public void exitListe_appel(LogoParser.Liste_appelContext ctx) { }
 

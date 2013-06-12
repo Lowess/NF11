@@ -19,8 +19,8 @@ ID : [a-zA-Z][a-zA-Z0-9]* ;
 //*****************************************
 //RegExp pour les expressions booléennes
 //*****************************************
-OP_BOOL : '=' ;
-OP_INT : '<'|'<='|'='|'>='|'>' ;
+OP_BOOL : ('=') ;
+OP_INT : ('<'|'<='|'='|'>='|'>') ;
 
 //**********************************************************************
 // REGLES DE GRAMMAIRE
@@ -44,7 +44,7 @@ instruction:
   	| expr_conditionnelle # expr_cond
   	| expr_affectation # expr_affect
   	| 'LOCALE' ID # affect_locale
-  	| ID liste_appel # appel_proc
+  	| ID '(' liste_appel ')' # appel_proc
   	| 'RET' expr_arithmetique # ret
   	;
 
@@ -77,6 +77,7 @@ expr_arithmetique :
   	| ':' ID # id
   	| '(' expr_arithmetique ')' # parent
   	| 'LOOP' # loop
+	| ID '(' liste_appel ')' # appel_fonc
 	;
 
 expr_booleene:
