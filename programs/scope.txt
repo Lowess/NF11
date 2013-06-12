@@ -1,0 +1,23 @@
+POUR carre :x
+REPETE 4 [
+AV :x
+TD 90
+]
+FIN
+
+POUR foo :x
+LOCALE x
+DONNE "x 200
+carre (:x)
+FIN
+
+FPOS 200 300
+
+DONNE "x 50
+carre (:x)
+
+LOCALE x
+DONNE "x 100
+carre (:x)
+
+foo (:x)

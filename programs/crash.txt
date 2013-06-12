@@ -1,0 +1,9 @@
+POUR foo:bar
+   AV :bar
+FIN
+
+AV :toto
+TD 90
+TG LOOP
+foo (1 2 3)
+foo (100)

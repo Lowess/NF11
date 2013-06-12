@@ -43,6 +43,7 @@ import logoparsing.LogoParser.IdContext;
 import logoparsing.LogoParser.Id_boolContext;
 import logoparsing.LogoParser.IntContext;
 import logoparsing.LogoParser.LcContext;
+import logoparsing.LogoParser.Liste_appelContext;
 import logoparsing.LogoParser.LoopContext;
 import logoparsing.LogoParser.MinusContext;
 import logoparsing.LogoParser.MulContext;
@@ -176,64 +177,19 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitLc(LcContext ctx) {
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
-		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:	
-				traceur.lc();
-				ret = 0;
-				break;
-			default:
-				
-				ret = 1;
-		}
-		return ret;	
+		traceur.lc();
+		return 0;	
 	}
 	@Override
 	public Integer visitBc(BcContext ctx) {
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
-		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:	
-				traceur.bc();
-				ret = 0;
-				break;
-			default:
-				
-				ret = 1;
-		}
-		return ret;
+		traceur.bc();
+		return 0;
 	}
 	
 	@Override
 	public Integer visitVe(VeContext ctx) {
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
-		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:	
-				traceur.ve();
-				ret = 0;
-				break;
-			default:
-				
-				ret = 1;			
-		}
-		return ret;
+		traceur.ve();
+		return 0;
 	}
 	
 	@Override
@@ -615,28 +571,15 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitLoop(LoopContext ctx) {
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
+		int ret;
+		try{
+			Noeud n = ContextManager.getInstance().getTableDesSymboles().getSymbole("LOOP");
+			setAttValue(ctx, n);
+			ret = 0;
+		} catch (Exception e) { 
+			System.out.println("Exception reçue: LOOP est utilisé en dehors de son contexte de boucle");
+			ret = 1;
 		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:
-				try{
-					Noeud n = ContextManager.getInstance().getTableDesSymboles().getSymbole("LOOP");
-					setAttValue(ctx, n);
-					ret = 0;
-				} catch (Exception e) { 
-					System.out.println("Exception reçue: LOOP est utilisé en dehors de son contexte de boucle");
-					ret = 1;
-				}
-				break;
-			default:
-				
-				ret = 1;
-		}				
 		return ret;
 	}
 
@@ -954,46 +897,16 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 
 	@Override
 	public Integer visitBool_vrai(Bool_vraiContext ctx){
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
-		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:	
-				Noeud n = new Noeud(true);
-				setAttValue(ctx, n);
-				ret = 0;
-				break;
-			default:
-				
-				ret = 1;
-		}
-		return ret;
+		Noeud n = new Noeud(true);
+		setAttValue(ctx, n);
+		return 0;
 	}
 
 	@Override
 	public Integer visitBool_faux(Bool_fauxContext ctx){
-		Integer code;
-		try {
-			code = new Integer(visitChildren(ctx));
-		} catch (NullPointerException e){
-			code = new Integer(0);
-		}
-		Integer ret = new Integer(0);
-		switch (code){
-			case 0:	
-				Noeud n = new Noeud(false);
-				setAttValue(ctx, n);
-				ret = 0;
-				break;
-			default:
-				
-				ret = 1;
-		}
-		return ret;
+		Noeud n = new Noeud(false);
+		setAttValue(ctx, n);
+		return 0;
 	}
 
 	@Override
@@ -1108,8 +1021,9 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 				//variable locale LOOP
 				int loop = 1;
 				//Mémorise le contexte précédent et en offre un nouveau
+				Integer code2 = null;
 				ContextManager.getInstance().getTableDesSymboles().nouveauContext();
-				for (int i=0 ; (i < n) && (ret == 0); i++){
+				for (int i=0 ; i < n; i++){
 					ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("LOOP", null);
 					ContextManager.getInstance().getTableDesSymboles().ajouterSymbole("LOOP", new Noeud(loop));
 					//On itére n fois
@@ -1122,7 +1036,6 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 				ContextManager.getInstance().getTableDesSymboles().restaurerContext();
 				break;
 			default:
-				
 				ret = 1;
 		}
 		return ret;
@@ -1143,7 +1056,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 				boolean b = getAttValue(ctx.expr_booleene()).getBooleen();
 				//Mémorise le contexte précédent et en offre un nouveau
 				ContextManager.getInstance().getTableDesSymboles().nouveauContext();
-				while (b && (ret == 0)){
+				while (b){
 					//On itére n fois
 					code2 = new Integer(visit(ctx.bloc()));
 					switch (code2){
@@ -1151,15 +1064,13 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 							setAttValue(ctx, getAttValue(ctx.bloc()));
 							ret = 0;
 							break;
-						default:
-							
+						default:		
 							ret = 1;	
 					}	
 				}
 				ContextManager.getInstance().getTableDesSymboles().restaurerContext();
 				break;
 			default:
-				
 				ret = 1;
 		}
 		return ret;
@@ -1195,8 +1106,7 @@ public class LogoTreeVisitor extends LogoBaseVisitor<Integer> {
 				
 				ret = 0;
 				break;
-			default:
-				
+			default:	
 				ret = 1;
 		}
 		return ret;		
